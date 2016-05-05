@@ -1,5 +1,6 @@
 source 'https://rubygems.org'
 
+ruby '2.2.4'
 # gem for oauth
 gem 'devise'
 # gem for postgresql
@@ -10,6 +11,7 @@ gem 'json'
 gem 'pry'
 gem 'gmaps4rails'
 gem 'geocoder'
+gem 'rails_12factor'
 
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
 gem 'rails', '4.2.5.1'
