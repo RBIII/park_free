@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <title><%= content_for?(:title) ? yield(:title) : "Untitled" %></title>
+
+    <%= stylesheet_link_tag    "application" %>
+    <%= javascript_include_tag "application", 'data-turbolinks-track' => true %>
+    <%= csrf_meta_tags %>
+  </head>
+
+  <body>
+    <nav class="top-bar">
+      <section class="top-bar-section row">
+        <h1 class="small-5 columns panal"><%= link_to "Park Free Boston", free_parking_areas_path %></h1>
+
+        <h3><%= link_to 'New Free Parking Area', new_free_parking_area_path, class: "small-5 columns"%></h3>
+        <%- if current_user -%>
+          <p class="small-2 columns"><%= link_to 'Sign Out', destroy_user_session_path, method: :delete, class: "user_options"%></p>
+        <%- else -%>
+          <p class="small-2 columns"><%= link_to 'Sign Up', new_user_registration_path, class: "user_options"%></p>
+          <p class="small-2 columns"><%= link_to 'Sign In', new_user_session_path, class: "user_options" %></p>
+        <%- end -%>
+      </section>
+    </nav>
+
+    <%- flash.each do |key, value| -%>
+      <div class="flash flash-<%= key %> flash-messages">
+        <%= value %>
+      </div>
+    <% end %>
+
+    <%= yield %>
+
+  </body>
+</html>
