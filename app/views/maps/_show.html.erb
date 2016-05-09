@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <%= stylesheet_link_tag 'application', media: 'all' %>
+    <%= javascript_include_tag "application" %>
+  </head>
+  <body>
+    <h5><%= free_parking_area.title %></h5>
+    <% if free_parking_area.verified? %>
+      <h7 class="verified">Verified</h7>
+    <% else %>
+      <h7 class="unverified">Unverified</h7>
+    <% end %>
+    <table>
+      <thead>
+        <tr>
+          <th>Address</th>
+          <th>City</th>
+          <th>State</th>
+          <th>Zip Code</th>
+          <th colspan="3"></th>
+        </tr>
+      </thead>
+
+      <tbody>
+        <tr>
+          <td><%= free_parking_area.address %></td>
+          <td><%= free_parking_area.city %></td>
+          <td><%= free_parking_area.state %></td>
+          <td><%= free_parking_area.zip_code %></td>
+        </tr>
+      </tbody>
+    </table>
+    <p><%= free_parking_area.description %></p>
+
+    <div class='row'>
+      <p class='small-6 columns'><%= link_to 'Edit', edit_free_parking_area_path(free_parking_area) if current_user && (free_parking_area.user == current_user || current_user.admin) %></p>
+      <p class='small-6 columns'><%= link_to 'Destroy', free_parking_area, method: :delete, data: { confirm: 'Are you sure?' } if current_user && (free_parking_area.user == current_user || curent_user.admin) %></p>
+    </div>
+  </body>
+</html>

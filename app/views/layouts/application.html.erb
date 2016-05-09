@@ -3,9 +3,8 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-
-    <title><%= content_for?(:title) ? yield(:title) : "Untitled" %></title>
-
+    <title><%= content_for?(:title) ? yield(:title) : "park free" %></title>
+    <% title %>
     <%= stylesheet_link_tag    "application" %>
     <%= javascript_include_tag "application", 'data-turbolinks-track' => true %>
     <%= csrf_meta_tags %>
@@ -14,14 +13,14 @@
   <body>
     <nav class="top-bar">
       <section class="top-bar-section row">
-        <h1 class="small-5 columns panal"><%= link_to "Park Free Boston", free_parking_areas_path, method: :get %></h1>
+        <h1 class="small-5 columns"><%= link_to "Park Free Boston", free_parking_areas_path, method: :get, class: "top-bar-text"%></h1>
 
-        <h3><%= link_to 'New Free Parking Area', new_free_parking_area_path, method: :get, class: "small-5 columns"%></h3>
+        <h3 class="small-5 columns"><%= link_to 'New Free Parking Area', new_free_parking_area_path, method: :get, class: "top-bar-text" %></h3>
         <%- if current_user -%>
-          <p class="small-2 columns"><%= link_to 'Sign Out', destroy_user_session_path, method: :delete, class: "user_options"%></p>
+          <p class="small-2 columns"><%= link_to 'Sign Out', destroy_user_session_path, method: :delete, class: "top-bar-text user_options" %></p>
         <%- else -%>
-          <p class="small-2 columns"><%= link_to 'Sign Up', new_user_registration_path, class: "user_options"%></p>
-          <p class="small-2 columns"><%= link_to 'Sign In', new_user_session_path, class: "user_options" %></p>
+          <p class="small-2 columns"><%= link_to 'Sign Up', new_user_registration_path, class: "top-bar-text user_options" %></p>
+          <p class="small-2 columns"><%= link_to 'Sign In', new_user_session_path, class: "top-bar-text user_options" %></p>
         <%- end -%>
       </section>
     </nav>

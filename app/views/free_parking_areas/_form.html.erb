@@ -3,7 +3,6 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>park free boston</title>
     <%= stylesheet_link_tag 'application', media: 'all' %>
     <%= javascript_include_tag "application" %>
   </head>
@@ -47,7 +46,11 @@
         <%= f.text_field :title %>
       </div>
       <div class="field">
-        <%= f.label :description, "Type of Parking (metered, 2 hour, etc.)" %><br>
+        <%= f.label :parking_type %><br>
+        <%= f.select :parking_type, @parking_types %>
+      </div>
+      <div class="field">
+        <%= f.label :description, "Any other details" %><br>
         <%= f.text_area :description %>
       </div>
       <div class="actions">

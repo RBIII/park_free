@@ -8,7 +8,12 @@ class FreeParkingAreasController < ApplicationController
     @json_fpas = Gmaps4rails.build_markers(@free_parking_areas) do |fpa, marker|
       marker.lat fpa.latitude
       marker.lng fpa.longitude
-      marker.infowindow(fpa.title + "\n" + fpa.description)
+      marker.picture({
+       :url => fpa.marker_color,
+       :width   => 32,
+       :height  => 32
+      })
+      marker.infowindow render_to_string(partial: "/maps/index.html.erb", locals: {user: current_user, free_parking_area: fpa})
     end
 
     respond_to do |format|
@@ -25,6 +30,12 @@ class FreeParkingAreasController < ApplicationController
     @json_fpa = Gmaps4rails.build_markers(@hacky_solution) do |fpa, marker|
       marker.lat fpa.latitude
       marker.lng fpa.longitude
+      marker.picture({
+       :url => fpa.marker_color,
+       :width   => 32,
+       :height  => 32
+      })
+      marker.infowindow render_to_string(partial: "/maps/show.html.erb", locals: {user: current_user, free_parking_area: fpa})
     end
 
     respond_to do |format|
@@ -36,6 +47,7 @@ class FreeParkingAreasController < ApplicationController
 
   def new
     @free_parking_area = FreeParkingArea.new
+    @parking_types = ["Free", "Metered", "2-Hour", "Parking Garage", "Other"]
   end
 
 
@@ -46,6 +58,7 @@ class FreeParkingAreasController < ApplicationController
   def create
     @free_parking_area = FreeParkingArea.new(free_parking_area_params)
     @free_parking_area.user = current_user
+    @free_parking_area.parking_type = @free_parking_area.parking_type.downcase
 
     respond_to do |format|
       if @free_parking_area.save
@@ -88,6 +101,6 @@ class FreeParkingAreasController < ApplicationController
 
   # Never trust parameters from the scary internet, only allow the white list through.
   def free_parking_area_params
-    params.require(:free_parking_area).permit(:address, :city, :state, :country, :zip_code, :title, :description)
+    params.require(:free_parking_area).permit(:address, :city, :state, :country, :zip_code, :title, :description, :parking_type)
   end
 end

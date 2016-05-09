@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <%= stylesheet_link_tag 'application', media: 'all' %>
+    <%= javascript_include_tag "application" %>
+  </head>
+  <body>
+    <h5><%= free_parking_area.title %></h5>
+    <% if free_parking_area.verified? %>
+      <h7 class="verified">Verified</h7>
+    <% else %>
+      <h7 class="unverified">Unverified</h7>
+    <% end %>
+    <p><%= free_parking_area.description %></p>
+    <div class='row'>
+      <% if current_user && (free_parking_area.user == current_user || current_user.admin) %>
+        <p class='small-4 columns'><%= link_to 'Show', free_parking_area %></p>
+        <p class='small-3 columns'><%= link_to 'Edit', edit_free_parking_area_path(free_parking_area) %></p>
+        <p class='small-5 columns'><%= link_to 'Destroy', free_parking_area, method: :delete, data: { confirm: 'Are you sure?' } %></p>
+      <% else %>
+        <p class='small-4 columns'><%= link_to 'Show', free_parking_area %></p>
+      <% end %>
+    </div>
+  </body>
+</html>
