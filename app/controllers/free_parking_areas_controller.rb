@@ -52,6 +52,7 @@ class FreeParkingAreasController < ApplicationController
 
 
   def edit
+    @parking_types = ["Free", "Metered", "2-Hour", "Parking Garage", "Other"]
   end
 
 

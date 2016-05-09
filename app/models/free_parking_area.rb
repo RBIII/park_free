@@ -23,15 +23,20 @@ class FreeParkingArea < ActiveRecord::Base
 
   def marker_color
     if parking_type == "free"
+      #green
       "http://chart.apis.google.com/chart?chst=d_map_pin_letter&chld=|009E3D|000000"
     elsif parking_type == "metered"
+      #blue
       "http://chart.apis.google.com/chart?chst=d_map_pin_letter&chld=|0084C6|000000"
     elsif parking_type == "2-hour"
+      #yellow
       "http://chart.apis.google.com/chart?chst=d_map_pin_letter&chld=|F3C300|000000"
     elsif parking_type == "parking garage"
+      #red
       "http://chart.apis.google.com/chart?chst=d_map_pin_letter&chld=|E00024|000000"
     else
-      "http://chart.apis.google.com/chart?chst=d_map_pin_letter&chld=|000000|000000"
+      #grey
+      "http://chart.apis.google.com/chart?chst=d_map_pin_letter&chld=|9FA6AD|000000"
     end
   end
 end
