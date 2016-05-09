@@ -63,7 +63,7 @@ class FreeParkingAreasController < ApplicationController
 
     respond_to do |format|
       if @free_parking_area.save
-        format.html { redirect_to @free_parking_area, notice: 'Free parking area was successfully created.' }
+        format.html { redirect_to free_parking_areas_path, notice: 'Free parking area was successfully created.' }
         format.json { render :show, status: :created, location: @free_parking_area }
       else
         format.html { render :new }
@@ -74,9 +74,11 @@ class FreeParkingAreasController < ApplicationController
 
 
   def update
+    @free_parking_area.parking_type = @free_parking_area.parking_type.downcase
+
     respond_to do |format|
       if @free_parking_area.update(free_parking_area_params)
-        format.html { redirect_to @free_parking_area, notice: 'Free parking area was successfully updated.' }
+        format.html { redirect_to free_parking_areas_path, notice: 'Free parking area was successfully updated.' }
         format.json { render :show, status: :ok, location: @free_parking_area }
       else
         format.html { render :edit }

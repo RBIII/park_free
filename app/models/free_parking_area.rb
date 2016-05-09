@@ -3,6 +3,7 @@ class FreeParkingArea < ActiveRecord::Base
   has_many :verifications
   geocoded_by :full_address
   after_validation :geocode
+  before_update :format_params
   validates :user_id, presence: true
   validates :address, presence: true
   validates :city, presence: true
@@ -19,6 +20,10 @@ class FreeParkingArea < ActiveRecord::Base
   def verified?
     user.admin || verifications.length >= 3 || verifications.any? { |v| v.user.admin }
     ["Free", "Metered", "2-Hour", "Parking Garage", "Other"]
+  end
+
+  def format_params
+    self.parking_type.downcase!
   end
 
   def marker_color
