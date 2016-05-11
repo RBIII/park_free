@@ -1,7 +1,11 @@
 Rails.application.routes.draw do
-  resources :free_parking_areas
   devise_for :users
   root 'free_parking_areas#index'
+
+  resources :free_parking_areas do
+    resources :verifications, only: [:create, :update]
+  end
+
 
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".

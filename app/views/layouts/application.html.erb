@@ -13,14 +13,14 @@
   <body>
     <nav class="top-bar">
       <section class="top-bar-section row">
-        <h1 class="small-5 columns"><%= link_to "Park Free Boston", free_parking_areas_path, method: :get, class: "top-bar-text"%></h1>
+        <h3 class="small-5 columns"><%= link_to 'New Parking Area', new_free_parking_area_path, method: :get, class: "top-bar-text" %></h3>
 
-        <h3 class="small-5 columns"><%= link_to 'New Free Parking Area', new_free_parking_area_path, method: :get, class: "top-bar-text" %></h3>
+        <h2 class="small-5 columns"><%= link_to "Park Free", free_parking_areas_path, method: :get, class: "top-bar-text"%></h2>
         <%- if current_user -%>
-          <p class="small-2 columns"><%= link_to 'Sign Out', destroy_user_session_path, method: :delete, class: "top-bar-text user_options" %></p>
+          <h4 class="small-2 columns"><%= link_to 'Sign Out', destroy_user_session_path, method: :delete, class: "top-bar-text user_options" %></h4>
         <%- else -%>
-          <p class="small-2 columns"><%= link_to 'Sign Up', new_user_registration_path, class: "top-bar-text user_options" %></p>
-          <p class="small-2 columns"><%= link_to 'Sign In', new_user_session_path, class: "top-bar-text user_options" %></p>
+          <h4 class="small-2 columns"><%= link_to 'Sign Up', new_user_registration_path, class: "top-bar-text user_options" %></h4>
+          <h4 class="small-2 columns"><%= link_to 'Sign In', new_user_session_path, class: "top-bar-text user_options" %></h4>
         <%- end -%>
       </section>
     </nav>

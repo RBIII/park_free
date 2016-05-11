@@ -8,11 +8,22 @@
   </head>
   <body>
     <h5><%= free_parking_area.title %></h5>
-    <% if free_parking_area.verified? %>
-      <h7 class="verified">Verified</h7>
-    <% else %>
-      <h7 class="unverified">Unverified</h7>
-    <% end %>
+    <div class="row">
+
+      <% if free_parking_area.verified? %>
+        <h7 class="verified small-7 columns">Community Verified</h7>
+      <% else %>
+        <h7 class="unverified small-7 columns">Not Yet Verified</h7>
+      <% end %>
+
+      <% if verification && verification.value == 1 %>
+        <p class="small-5 columns"><%= link_to "Remove Verification", free_parking_area_verification_path(free_parking_area_id: free_parking_area, id: verification.id), method: :patch %></p>
+      <% elsif verification && verification.value == 0 %>
+        <p class="small-5 columns"><%= link_to "Add Verification", free_parking_area_verification_path(free_parking_area_id: free_parking_area, id: verification.id), method: :patch %></p>
+      <% else %>
+        <p class="small-5 columns"><%= link_to "Add Verification", free_parking_area_verifications_path(free_parking_area), method: :post %></p>
+      <% end %>
+    </div>
     <table>
       <thead>
         <tr>
@@ -33,7 +44,7 @@
         </tr>
       </tbody>
     </table>
-    <p><%= free_parking_area.description unless free_parking_area.description == 'N/A'%></p>
+    <p><%= free_parking_area.description unless free_parking_area.description == 'N/A' %></p>
     <div class='row'>
       <% if current_user && (free_parking_area.user == current_user || current_user.admin) %>
         <p class='small-4 columns'><%= link_to 'Show', free_parking_area %></p>

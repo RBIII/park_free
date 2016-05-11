@@ -4,6 +4,7 @@ class FreeParkingAreasController < ApplicationController
 
 
   def index
+    verification = nil
     @free_parking_areas = FreeParkingArea.all
     @json_fpas = Gmaps4rails.build_markers(@free_parking_areas) do |fpa, marker|
       marker.lat fpa.latitude
@@ -13,7 +14,8 @@ class FreeParkingAreasController < ApplicationController
        :width   => 32,
        :height  => 32
       })
-      marker.infowindow render_to_string(partial: "/maps/index.html.erb", locals: {user: current_user, free_parking_area: fpa})
+      verification = Verification.find_by(user_id: current_user.id, free_parking_area_id: fpa.id) unless current_user.nil?
+      marker.infowindow render_to_string(partial: "/maps/index.html.erb", locals: {user: current_user, free_parking_area: fpa, verification: verification})
     end
 
     respond_to do |format|
@@ -24,6 +26,7 @@ class FreeParkingAreasController < ApplicationController
 
 
   def show
+    verification = nil
     @free_parking_area = FreeParkingArea.find(params[:id])
     @hacky_solution = [@free_parking_area]
 
@@ -35,7 +38,8 @@ class FreeParkingAreasController < ApplicationController
        :width   => 32,
        :height  => 32
       })
-      marker.infowindow render_to_string(partial: "/maps/show.html.erb", locals: {user: current_user, free_parking_area: fpa})
+      verification = Verification.find_by(user_id: current_user.id, free_parking_area_id: fpa.id) unless current_user.nil?
+      marker.infowindow render_to_string(partial: "/maps/show.html.erb", locals: {user: current_user, free_parking_area: fpa, verification: verification})
     end
 
     respond_to do |format|

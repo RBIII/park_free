@@ -18,8 +18,9 @@ class FreeParkingArea < ActiveRecord::Base
   end
 
   def verified?
-    user.admin || verifications.length >= 3 || verifications.any? { |v| v.user.admin }
-    ["Free", "Metered", "2-Hour", "Parking Garage", "Other"]
+    verification_sum = 0
+    verifications.each { |v| verification_sum += v.value }
+    user.admin || verification_sum >= 3 || verifications.any? { |v| v.user.admin }
   end
 
   def format_params

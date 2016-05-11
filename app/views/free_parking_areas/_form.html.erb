@@ -20,6 +20,29 @@
         </div>
       <% end %>
 
+      <!-- <script type="text/javascript">
+      function getCurrentLocation() {
+        debugger;
+
+        var handler = Gmaps.build('Google');
+        debugger;
+
+        handler.buildMap({ internal: {id: 'geolocation'} }, function(){
+          if(navigator.geolocation)
+
+            navigator.geolocation.getCurrentPosition(displayOnMap);
+        });
+      };
+
+        function displayOnMap(position){
+          var marker = handler.addMarker({
+            lat: position.coords.latitude,
+            lng: position.coords.longitude
+          });
+        };
+      </script>
+
+      <input id="currentLocation" type="button" value="Current Location" onclick="getCurrentLocation();" /> -->
 
       <div class="field">
         <%= f.label :address %><br>
