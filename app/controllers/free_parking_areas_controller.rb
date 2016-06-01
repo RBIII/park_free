@@ -5,6 +5,8 @@ class FreeParkingAreasController < ApplicationController
 
   def index
     verification = nil
+    gon.new_parking_area = []
+
     @free_parking_areas = FreeParkingArea.all
     @json_fpas = Gmaps4rails.build_markers(@free_parking_areas) do |fpa, marker|
       marker.lat fpa.latitude
@@ -50,8 +52,14 @@ class FreeParkingAreasController < ApplicationController
 
 
   def new
+    @touched_area_array = params[:touch_located_parking_area].split(",").map! {|a| a.strip} if params[:touch_located_parking_area]
     @free_parking_area = FreeParkingArea.new
     @parking_types = ["Free", "Metered", "2-Hour", "Parking Garage", "Other"]
+
+    respond_to do |format|
+      format.html
+      format.js
+    end
   end
 
 
@@ -100,6 +108,15 @@ class FreeParkingAreasController < ApplicationController
     end
   end
 
+
+  def redirect_to_new_from_map
+    if params[:lat] && params[:lng]
+      touched_lat_lng = params[:lat] + "," + params[:lng]
+      touch_located_parking_area = Geocoder.search(touched_lat_lng).first.address
+    end
+
+    render js: "window.location.href='#{new_free_parking_area_path(touch_located_parking_area: touch_located_parking_area)}';"
+  end
   private
   # Use callbacks to share common setup or constraints between actions.
   def set_free_parking_area

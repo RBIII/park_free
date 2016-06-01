@@ -21,8 +21,52 @@
 
      handler.buildMap({ provider: {}, internal: {id: 'multi_markers'}}, function(){
        markers = handler.addMarkers(<%= raw @json_fpa.to_json %>);
+       if(navigator.geolocation) {
+          navigator.geolocation.getCurrentPosition(displayOnMap)
+        };
+
        handler.map.centerOn(centerpoint)
        handler.getMap().setZoom(16);
+
+       function displayOnMap(position){
+          handler.addMarker({
+            lat: position.coords.latitude,
+            lng: position.coords.longitude
+          });
+        };
+        
+       var map = handler.getMap()
+       var count=2
+       google.maps.event.addListener(map, 'mousedown', function(event){
+
+           var counter=setInterval(timer, 1000);
+           var latLng=event.latLng;
+           var contentString= '<%= link_to "Add Parking Area", free_parking_areas_path(latLng), method: :post, id: "pass_latLng"%>'
+           var infowindow = new google.maps.InfoWindow({
+             content: contentString
+             });
+
+             google.maps.event.addListener(map, 'mouseup', function(event){
+               clearInterval(counter);
+             });
+
+           function timer(){
+             count=count-1;
+             if (count <= 0)
+             {
+                var marker = new google.maps.Marker({
+                   position: latLng,
+                   map: map,
+                   title: "Unsaved Marker"
+                 });
+
+                 marker.addListener("click", function(){
+                   infowindow.open(map, marker);
+                 });
+                return;
+             }
+           }
+       });
      });
      </script>
   </body>

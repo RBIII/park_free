@@ -4,7 +4,10 @@ Rails.application.routes.draw do
 
   resources :free_parking_areas do
     resources :verifications, only: [:create, :update]
+    post 'redirect_to_new_from_map', on: :collection
   end
+
+
 
 
   # The priority is based upon order of creation: first created -> highest priority.

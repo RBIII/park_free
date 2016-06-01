@@ -12,42 +12,87 @@
   </head>
   <body>
     <div>
-      <div class='index-map' id='multi_markers'></div>
+      <div class='index-map' id='multi_markers'> </div>
     </div>
 
     <script type="text/javascript">
      handler = Gmaps.build('Google');
      var centerpoint = new google.maps.LatLng(42.339169, -71.088474);
-     debugger;
 
      handler.buildMap({ provider: {}, internal: {id: 'multi_markers'}}, function(){
        markers = handler.addMarkers(<%= raw @json_fpas.to_json %>);
        if(navigator.geolocation) {
           navigator.geolocation.getCurrentPosition(displayOnMap)
         };
-      //  for (var i=0;i < markers.length; i++){
-      //    var marker = markers[i];
-      //    google.maps.event.addListener(marker.getServiceObject(), "mousedown", function(evt) {
-      //      var timer = null;
-       //
-      //
-      //      debugger;
-      //
-      //      alert("hello!");
-      //    });
-      //  }
+
        handler.map.centerOn(centerpoint)
        handler.bounds.extendWith(markers);
        handler.getMap().setZoom(12);
      });
 
      function displayOnMap(position){
-        var marker = handler.addMarker({
+        handler.addMarker({
           lat: position.coords.latitude,
           lng: position.coords.longitude
         });
-        handler.map.centerOn(marker);
       };
+
+      var map = handler.getMap();
+      var count=2;
+      google.maps.event.addListener(map, 'mousedown', function(event){
+
+          var counter=setInterval(timer, 1000);
+          var latLng=event.latLng;
+          var infowindow = new google.maps.InfoWindow({
+            content: '<button onclick=createParkingArea()>Add Parking Area</button>'
+            });
+
+            google.maps.event.addListener(map, 'mouseup', function(event){
+              clearInterval(counter);
+            });
+
+          function timer(){
+            count=count-1;
+            if (count <= 0)
+            {
+              if (gon.new_parking_area.length == 0) {
+               var marker = new google.maps.Marker({
+                  position: latLng,
+                  map: map
+                });
+
+                gon.new_parking_area.push(marker)
+
+              } else {
+                gon.new_parking_area[0].setMap(null);
+                gon.new_parking_area.shift();
+
+                var marker = new google.maps.Marker({
+                   position: latLng,
+                   map: map
+                 });
+
+                 gon.new_parking_area.push(marker)
+              }
+
+                marker.addListener("click", function(){
+                  infowindow.open(map, marker);
+                });
+
+               return;
+            }
+          }
+      });
+
+      function createParkingArea(){
+        $.ajax({
+            type : "POST",
+            url : "/free_parking_areas/redirect_to_new_from_map.js",
+            dataType: 'script',
+            data : { lat: gon.new_parking_area[0].position.lat(), lng: gon.new_parking_area[0].position.lng() }
+        });
+        return false;
+      }
      </script>
   </body>
 </html>

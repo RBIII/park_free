@@ -3,8 +3,9 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title><%= content_for?(:title) ? yield(:title) : "Park Free" %></title>
+    <title><%= content_for?(:title) ? yield(:title) : "Park Easy" %></title>
     <% title %>
+    <%= Gon::Base.render_data %>
     <%= stylesheet_link_tag    "application" %>
     <%= javascript_include_tag "application", 'data-turbolinks-track' => true %>
     <%= csrf_meta_tags %>
@@ -15,7 +16,7 @@
       <section class="top-bar-section row">
         <h3 class="small-5 columns"><%= link_to 'New Parking Area', new_free_parking_area_path, method: :get, class: "top-bar-text" %></h3>
 
-        <h2 class="small-5 columns"><%= link_to "Park Free", free_parking_areas_path, method: :get, class: "top-bar-text"%></h2>
+        <h2 class="small-5 columns"><%= link_to "Park Easy", free_parking_areas_path, method: :get, class: "top-bar-text"%></h2>
         <%- if current_user -%>
           <h4 class="small-2 columns"><%= link_to 'Sign Out', destroy_user_session_path, method: :delete, class: "top-bar-text user_options" %></h4>
         <%- else -%>
