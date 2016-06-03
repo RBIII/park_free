@@ -1,12 +1,13 @@
 class FreeParkingAreasController < ApplicationController
-  before_action :authenticate_user!, except: [:index, :show]
+  before_action :authenticate_user!, except: [:index, :show, :redirect_to_new_from_map]
   before_action :set_free_parking_area, only: [:show, :edit, :update, :destroy]
 
 
   def index
     verification = nil
     gon.new_parking_area = []
-
+    gon.current_location = []
+    
     @free_parking_areas = FreeParkingArea.all
     @json_fpas = Gmaps4rails.build_markers(@free_parking_areas) do |fpa, marker|
       marker.lat fpa.latitude
@@ -115,7 +116,12 @@ class FreeParkingAreasController < ApplicationController
       touch_located_parking_area = Geocoder.search(touched_lat_lng).first.address
     end
 
-    render js: "window.location.href='#{new_free_parking_area_path(touch_located_parking_area: touch_located_parking_area)}';"
+    if current_user
+      render js: "window.location.href='#{new_free_parking_area_path(touch_located_parking_area: touch_located_parking_area)}';"
+    else
+      render js: "window.location.href= '#{new_user_registration_path}'"
+      flash[:notice] = "You must sign up or sign in"
+    end
   end
   private
   # Use callbacks to share common setup or constraints between actions.
