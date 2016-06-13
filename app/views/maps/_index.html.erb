@@ -7,7 +7,10 @@
     <%= javascript_include_tag "application" %>
   </head>
   <body>
-    <h5><%= free_parking_area.title %></h5>
+    <div class="row">
+      <h5 class="small-8 columns"><%= free_parking_area.title %></h5>
+      <input type="button" value="Directions" onclick="calcRoute(<%= latitude %>, <%= longitude %>);" class="directions small-4 columns">
+    </div>
     <div class="row">
 
       <% if free_parking_area.verified? %>

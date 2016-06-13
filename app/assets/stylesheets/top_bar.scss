@@ -11,16 +11,19 @@ a {
   }
 }
 
-.user_options {
-  // font-size: 1.4em;
-  // padding-top: 1%;
-}
-
 .top-bar {
-  height: 25vh;
+  height: 20vh;
   background-color: #075B9A;
+  position: relative;
 }
 
 .top-bar-text {
   color: white;
+}
+
+.overlay-link {
+  font-size: 1.2em;
+  margin-left: 78%;
+  position: absolute;
+  bottom: 2%;
 }

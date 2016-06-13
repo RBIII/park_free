@@ -48,13 +48,15 @@
         google.maps.event.addListener(marker.getServiceObject(), 'click', function(object){
           currentLocationInfowindow.open(map, marker.getServiceObject());
         });
+
+        return marker;
       };
 
       var map = handler.getMap();
       var count=3;
       google.maps.event.addListener(map, 'mousedown', function(event){
 
-          var counter=setInterval(timer, 500);
+          var counter=setInterval(timer, 1000);
           var latLng=event.latLng;
 
             google.maps.event.addListener(map, 'mouseup', function(event){
@@ -72,7 +74,7 @@
                 });
 
                 gon.new_parking_area.push(marker)
-
+                count=3;
               } else {
                 gon.new_parking_area[0].setMap(null);
                 gon.new_parking_area.shift();
@@ -83,13 +85,13 @@
                  });
 
                  gon.new_parking_area.push(marker)
+                 count=3;
               }
 
                 marker.addListener("click", function(){
                   pressedLocationInfowindow.open(map, marker);
                 });
-
-               return;
+               return false;
             }
           }
       });
@@ -114,21 +116,32 @@
         return false;
       }
 
-      function calcRoute() {
-        var origin      = new google.maps.LatLng(41.850033, -87.6500523);
-        var destination = new google.maps.LatLng(42.850033, -85.6500523);
-        var request = {
-            origin:      origin,
-            destination: destination,
-            travelMode:  google.maps.TravelMode.DRIVING
-        };
-        directionsService.route(request, function(response, status) {
-          if (status == google.maps.DirectionsStatus.OK) {
-            directionsDisplay.setDirections(response);
-          }
-        });
-      }
+      function calcRoute(destinationLat, destinationLng) {
+        var directionsService = new google.maps.DirectionsService();
+        var directionsDisplay = new google.maps.DirectionsRenderer();
+        debugger;
 
+        directionsDisplay.setMap(handler.getMap())
+        if(navigator.geolocation) {
+           navigator.geolocation.getCurrentPosition(function(position) {
+             var origin = new google.maps.LatLng(position.coords.latitude, position.coords.longitude);
+             var destination = new google.maps.LatLng(destinationLat, destinationLng);
+
+             var request = {
+                 origin:      origin,
+                 destination: destination,
+                 travelMode:  google.maps.DirectionsTravelMode.DRIVING
+             };
+             directionsService.route(request, function(response, status) {
+               if (status == google.maps.DirectionsStatus.OK) {
+                 directionsDisplay.setDirections(response);
+               };
+             });
+           });
+          } else {
+            alert("You must have location enabled for directions")
+          };
+         };
      </script>
   </body>
 </html>

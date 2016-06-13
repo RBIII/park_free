@@ -23,3 +23,13 @@ $(function(){ $(document).foundation(); });
 $(function() {
   $('.flash-messages').delay(1500).fadeOut(600);
 });
+
+$(document).ready(function(){
+  $('.overlay').overlay();
+});
+
+function categoryGuide(){
+  setTimeout(function() {
+      $('a.overlay-link').click();
+  }, 10);
+};
