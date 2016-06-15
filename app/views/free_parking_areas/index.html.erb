@@ -17,6 +17,7 @@
 
     <script type="text/javascript">
      handler = Gmaps.build('Google');
+     closeWindow = null;
      var centerpoint = new google.maps.LatLng(42.339169, -71.088474);
      var currentLocationInfowindow=new google.maps.InfoWindow({
        content: '<button onclick=addCurrentLocation()>Add Parking Area</button>'
@@ -59,39 +60,34 @@
           var counter=setInterval(timer, 1000);
           var latLng=event.latLng;
 
-            google.maps.event.addListener(map, 'mouseup', function(event){
-              clearInterval(counter);
-            });
+          google.maps.event.addListener(map, 'mouseup', function(event){
+            clearInterval(counter);
+            count=3;
+          });
 
           function timer(){
             count=count-1;
-            if (count <= 0)
-            {
-              if (gon.new_parking_area.length == 0) {
-               var marker = new google.maps.Marker({
-                  position: latLng,
-                  map: map
+
+            if (count <= 0) {
+              var marker = new google.maps.Marker({
+                 position: latLng,
+                 map: map
+               });
+
+               if (gon.new_parking_area.length > 0){
+                 google.maps.event.clearListeners(pressedLocationInfowindow, 'closeclick');
+                 gon.new_parking_area[0].setMap(null);
+                 gon.new_parking_area.pop();
+               }
+
+               gon.new_parking_area.push(marker);
+               pressedLocationInfowindow.open(map, marker);
+
+               closeWindow = google.maps.event.addListener(pressedLocationInfowindow,'closeclick',function(){
+                 gon.new_parking_area[0].setMap(null);
+                 gon.new_parking_area.pop();
+                 closeWindow.removeListener()
                 });
-
-                gon.new_parking_area.push(marker)
-                count=3;
-              } else {
-                gon.new_parking_area[0].setMap(null);
-                gon.new_parking_area.shift();
-
-                var marker = new google.maps.Marker({
-                   position: latLng,
-                   map: map
-                 });
-
-                 gon.new_parking_area.push(marker)
-                 count=3;
-              }
-
-                marker.addListener("click", function(){
-                  pressedLocationInfowindow.open(map, marker);
-                });
-               return false;
             }
           }
       });
@@ -119,7 +115,6 @@
       function calcRoute(destinationLat, destinationLng) {
         var directionsService = new google.maps.DirectionsService();
         var directionsDisplay = new google.maps.DirectionsRenderer();
-        debugger;
 
         directionsDisplay.setMap(handler.getMap())
         if(navigator.geolocation) {
