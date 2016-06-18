@@ -8,8 +8,9 @@
   </head>
   <body>
     <div class="row">
-      <h5 class="small-8 columns"><%= free_parking_area.title %></h5>
-      <input type="button" value="Directions" onclick="calcRoute(<%= latitude %>, <%= longitude %>);" class="directions small-4 columns">
+      <h5 class="small-5 columns"><%= free_parking_area.title %></h5>
+      <input type="button" value="Directions" onclick="calcRoute(<%= free_parking_area.latitude %>, <%= free_parking_area.longitude %>);" class="directions small-3 columns">
+      <input type="button" value="Open in Maps" class="small-4 columns" onclick="location.href='http://maps.apple.com/?q=<%= free_parking_area.latitude %>,<%= free_parking_area.longitude %>'">
     </div>
     <div class="row">
 
@@ -47,7 +48,9 @@
         </tr>
       </tbody>
     </table>
-    <p><%= free_parking_area.description unless free_parking_area.description == 'N/A' %></p>
+    <div class="row">
+      <p class="small-12 columns"><%= free_parking_area.description unless free_parking_area.description == 'N/A' %></p>
+    </div>
     <div class='row'>
       <% if current_user && (free_parking_area.user == current_user || current_user.admin) %>
         <p class='small-4 columns'><%= link_to 'Show', free_parking_area %></p>

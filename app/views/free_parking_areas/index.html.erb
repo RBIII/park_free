@@ -60,7 +60,7 @@
           var counter=setInterval(timer, 1000);
           var latLng=event.latLng;
 
-          google.maps.event.addListener(map, 'mouseup', function(event){
+          google.maps.event.addListener(map, 'mouseup', function(){
             clearInterval(counter);
             count=3;
           });
@@ -69,25 +69,24 @@
             count=count-1;
 
             if (count <= 0) {
-              var marker = new google.maps.Marker({
-                 position: latLng,
-                 map: map
-               });
+               if (gon.new_parking_area.length == 0){
+                 var marker = new google.maps.Marker({
+                    position: latLng,
+                    map: map
+                  });
 
-               if (gon.new_parking_area.length > 0){
-                 google.maps.event.clearListeners(pressedLocationInfowindow, 'closeclick');
-                 gon.new_parking_area[0].setMap(null);
-                 gon.new_parking_area.pop();
+                 gon.new_parking_area.push(marker);
+                 pressedLocationInfowindow.open(map, marker);
+
+                 google.maps.event.addListener(pressedLocationInfowindow,'closeclick',function(){
+                   gon.new_parking_area[0].setMap(null);
+                   gon.new_parking_area.pop();
+                  });
+                  count = 3;
+               } else {
+                 gon.new_parking_area[0].setPosition(latLng);
+                 count = 3;
                }
-
-               gon.new_parking_area.push(marker);
-               pressedLocationInfowindow.open(map, marker);
-
-               closeWindow = google.maps.event.addListener(pressedLocationInfowindow,'closeclick',function(){
-                 gon.new_parking_area[0].setMap(null);
-                 gon.new_parking_area.pop();
-                 closeWindow.removeListener()
-                });
             }
           }
       });

@@ -93,8 +93,8 @@ $breakpoint-classes: (small medium large);
 $grid-row-width: $global-width;
 $grid-column-count: 12;
 $grid-column-gutter: (
-  small: 20px,
-  medium: 30px,
+  small: 10px,
+  medium: 20px,
 );
 $grid-column-align-edge: true;
 $block-grid-max: 8;
@@ -116,6 +116,14 @@ $header-sizes: (
     'h6': 16,
   ),
   medium: (
+    'h1': 36,
+    'h2': 32,
+    'h3': 25,
+    'h4': 22,
+    'h5': 18,
+    'h6': 16,
+  ),
+  large: (
     'h1': 48,
     'h2': 40,
     'h3': 31,
@@ -564,4 +572,3 @@ $topbar-submenu-background: $topbar-background;
 $topbar-title-spacing: 1rem;
 $topbar-input-width: 200px;
 $topbar-unstack-breakpoint: medium;
-
