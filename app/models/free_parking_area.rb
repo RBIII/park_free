@@ -1,5 +1,6 @@
 class FreeParkingArea < ActiveRecord::Base
   belongs_to :user
+  has_many :comments, foreign_key: "fpa_id"
   has_many :verifications
   geocoded_by :full_address
   after_validation :geocode
@@ -42,7 +43,7 @@ class FreeParkingArea < ActiveRecord::Base
       "http://chart.apis.google.com/chart?chst=d_map_pin_letter&chld=|E00024|000000"
     else
       #grey
-      "http://chart.apis.google.com/chart?chst=d_map_pin_letter&chld=|9FA6AD|000000"
+      "http://chart.apis.google.com/chart?chst=d_map_pin_letter&chld=|282826|000000"
     end
   end
 end
