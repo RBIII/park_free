@@ -8,24 +8,26 @@
   </head>
   <body>
     <div class="row">
-      <h5 class="small-3 columns"><%= free_parking_area.title %></h5>
-      <input type="button" value="Directions" onclick="calcRoute(<%= free_parking_area.latitude %>, <%= free_parking_area.longitude %>);" class="directions small-4 columns">
-      <input type="button" value="Open in Maps" class="small-5 columns" onclick="location.href='http://maps.apple.com/?q=<%= free_parking_area.latitude %>,<%= free_parking_area.longitude %>'">
+      <h5 style="text-align: center;" class="small-12 columns"><%= free_parking_area.title %></h5>
     </div>
     <div class="row">
+      <input class="button directions small-5 columns" type="button" value="Directions" onclick="calcRoute(<%= free_parking_area.latitude %>, <%= free_parking_area.longitude %>);">
+      <input class="button small-7 columns" type="button" value="Open in Maps" onclick="location.href='http://maps.apple.com/?q=<%= free_parking_area.latitude %>,<%= free_parking_area.longitude %>'">
+    </div>
 
+    <div class="row">
       <% if free_parking_area.verified? %>
-        <h7 class="verified small-7 columns">Community Verified</h7>
+        <h7 class="verified small-6 columns">Community Verified</h7>
       <% else %>
-        <h7 class="unverified small-7 columns">Not Yet Verified</h7>
+        <h7 class="unverified small-6 columns">Not Yet Verified</h7>
       <% end %>
 
       <% if verification && verification.value == 1 %>
-        <p class="small-5 columns"><%= link_to "Remove Verification", free_parking_area_verification_path(free_parking_area_id: free_parking_area, id: verification.id), method: :patch %></p>
+        <p class="small-6 columns"><%= link_to "Remove Verification", free_parking_area_verification_path(free_parking_area_id: free_parking_area, id: verification.id), method: :patch %></p>
       <% elsif verification && verification.value == 0 %>
-        <p class="small-5 columns"><%= link_to "Add Verification", free_parking_area_verification_path(free_parking_area_id: free_parking_area, id: verification.id), method: :patch %></p>
+        <p class="small-6 columns"><%= link_to "Add Verification", free_parking_area_verification_path(free_parking_area_id: free_parking_area, id: verification.id), method: :patch %></p>
       <% else %>
-        <p class="small-5 columns"><%= link_to "Add Verification", free_parking_area_verifications_path(free_parking_area), method: :post %></p>
+        <p class="small-6 columns"><%= link_to "Add Verification", free_parking_area_verifications_path(free_parking_area), method: :post %></p>
       <% end %>
     </div>
     <table>

@@ -59,6 +59,10 @@
           var counter=setTimeout(timer, 3000);
           var latLng=event.latLng;
 
+          google.maps.event.addListener(map, 'mouseup', function(){
+            clearTimeout(counter)
+          });
+
           function timer(){
              if (gon.new_parking_area.length == 0){
                var marker = new google.maps.Marker({
