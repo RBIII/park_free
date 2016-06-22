@@ -12,7 +12,7 @@
     </div>
     <div class="row">
       <input class="button directions small-5 columns" type="button" value="Directions" onclick="calcRoute(<%= free_parking_area.latitude %>, <%= free_parking_area.longitude %>);">
-      <input class="button small-7 columns" type="button" value="Open in Maps" onclick="location.href='http://maps.apple.com/?q=<%= free_parking_area.latitude %>,<%= free_parking_area.longitude %>'">
+      <input class="button small-6 columns" type="button" value="Open in Maps" onclick="location.href='http://maps.apple.com/?q=<%= free_parking_area.latitude %>,<%= free_parking_area.longitude %>'">
     </div>
 
     <div class="row">
@@ -30,26 +30,7 @@
         <p class="small-6 columns"><%= link_to "Add Verification", free_parking_area_verifications_path(free_parking_area), method: :post %></p>
       <% end %>
     </div>
-    <table>
-      <thead>
-        <tr>
-          <th>Address</th>
-          <th>City</th>
-          <th>State</th>
-          <th>Zip Code</th>
-          <th colspan="3"></th>
-        </tr>
-      </thead>
 
-      <tbody>
-        <tr>
-          <td><%= free_parking_area.address %></td>
-          <td><%= free_parking_area.city %></td>
-          <td><%= free_parking_area.state %></td>
-          <td><%= free_parking_area.zip_code %></td>
-        </tr>
-      </tbody>
-    </table>
     <div class="row">
       <p class="small-12 columns"><%= free_parking_area.description unless free_parking_area.description == 'N/A' %></p>
     </div>

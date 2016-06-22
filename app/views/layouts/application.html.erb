@@ -17,7 +17,7 @@
         <%- if current_user -%>
           <h3 id="new" class="small-3 medium-4 large-4 columns"><%= link_to 'New', new_free_parking_area_path, method: :get, class: "top-bar-text" %></h3>
           <h2 id="park-easy" class="small-5 medium-4 large-4 columns"><%= link_to "Park Easy", free_parking_areas_path, method: :get, class: "top-bar-text"%></h2>
-          <h4 id="sign-out" class="small-4 medium-2 large-2 columns"><%= link_to 'Sign Out', destroy_user_session_path, method: :delete, class: "top-bar-text user_options" %></h4>
+          <h4 id="sign-out" class="small-4 medium-3 large-2 columns"><%= link_to 'Sign Out', destroy_user_session_path, method: :delete, class: "top-bar-text user_options" %></h4>
         <%- else -%>
           <h3 id="new" class="small-2 medium-3 large-4 columns"><%= link_to 'New', new_free_parking_area_path, method: :get, class: "top-bar-text" %></h3>
           <h2 id="park-easy" class="small-4 medium-4 large-4 columns"><%= link_to "Park Easy", free_parking_areas_path, method: :get, class: "top-bar-text"%></h2>
@@ -26,29 +26,29 @@
         <%- end -%>
       </section>
 
-      <a class="overlay-link top-bar-text" href="#" data-overlay-trigger>Marker Index</a>
+      <h6><a class="overlay-link top-bar-text" href="#" data-overlay-trigger>Marker Index</a></h6>
 
         <div class="overlay">
           <div class="modal">
             <div class='row'>
               <img class='overlay-marker small-2 columns' src="http://chart.apis.google.com/chart?chst=d_map_pin_letter&chld=|009E3D|000000">
-              <h3 class='small-10 columns'>Free</h3>
+              <h3 class='overlay-text small-10 columns'>Free</h3>
             </div>
             <div class='row'>
               <img class='overlay-marker small-2 columns' src="http://chart.apis.google.com/chart?chst=d_map_pin_letter&chld=|0084C6|000000">
-              <h3 class='small-10 columns'>Metered</h3>
+              <h3 class='overlay-text small-10 columns'>Metered</h3>
             </div>
             <div class='row'>
               <img class='overlay-marker small-2 columns' src="http://chart.apis.google.com/chart?chst=d_map_pin_letter&chld=|F3C300|000000">
-              <h3 class='small-10 columns'>Two Hour</h3>
+              <h3 class='overlay-text small-10 columns'>Two Hour</h3>
             </div>
             <div class='row'>
               <img class='overlay-marker small-2 columns' src="http://chart.apis.google.com/chart?chst=d_map_pin_letter&chld=|E00024|000000">
-              <h3 class='small-10 columns'>Parking Garage</h3>
+              <h3 class='overlay-text small-10 columns'>Parking Garage</h3>
             </div>
             <div class='row'>
               <img class='overlay-marker small-2 columns' src="http://chart.apis.google.com/chart?chst=d_map_pin_letter&chld=|9FA6AD|000000">
-              <h3 class='small-10 columns'>Other</h3>
+              <h3 class='overlay-text small-10 columns'>Other</h3>
             </div>
           </div>
         </div>
@@ -61,5 +61,8 @@
     <% end %>
 
     <%= yield %>
+
+    <%= render 'layouts/footer' %>
+    <%= yield :footer %>
   </body>
 </html>
