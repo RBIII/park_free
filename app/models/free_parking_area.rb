@@ -42,7 +42,7 @@ class FreeParkingArea < ActiveRecord::Base
       #red
       "http://chart.apis.google.com/chart?chst=d_map_pin_letter&chld=|E00024|000000"
     else
-      #grey
+      #charcoal
       "http://chart.apis.google.com/chart?chst=d_map_pin_letter&chld=|282826|000000"
     end
   end

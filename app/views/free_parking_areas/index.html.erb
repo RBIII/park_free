@@ -16,30 +16,29 @@
     </div>
 
     <script type="text/javascript">
-     handler = Gmaps.build('Google');
-     origin = null;
+      handler = Gmaps.build('Google');
 
-     var centerpoint = new google.maps.LatLng(42.339169, -71.088474);
-     var currentLocationInfowindow=new google.maps.InfoWindow({
-       content: '<button onclick=addCurrentLocation()>Add Parking Area</button>'
-       });
+      var centerpoint = new google.maps.LatLng(42.339169, -71.088474);
+      var currentLocationInfowindow=new google.maps.InfoWindow({
+        content: '<button onclick=addCurrentLocation()>Add Parking Area</button>'
+      });
 
-     var pressedLocationInfowindow=new google.maps.InfoWindow({
-       content: '<button onclick=addPressedLocation()>Add Parking Area</button>'
-       });
+      var pressedLocationInfowindow=new google.maps.InfoWindow({
+        content: '<button onclick=addPressedLocation()>Add Parking Area</button>'
+      });
 
-     handler.buildMap({ provider: {}, internal: {id: 'multi_markers'}}, function(){
-       markers = handler.addMarkers(<%= raw @json_fpas.to_json %>);
-       if(navigator.geolocation) {
-         navigator.geolocation.getCurrentPosition(displayOnMap)
+      handler.buildMap({ provider: {}, internal: {id: 'multi_markers'}}, function(){
+        markers = handler.addMarkers(<%= raw @json_fpas.to_json %>);
+        if(navigator.geolocation) {
+          navigator.geolocation.getCurrentPosition(displayOnMap)
         };
 
-       handler.map.centerOn(centerpoint)
-       handler.bounds.extendWith(markers);
-       handler.getMap().setZoom(12);
-     });
+        handler.map.centerOn(centerpoint)
+        handler.bounds.extendWith(markers);
+        handler.getMap().setZoom(12);
+      });
 
-     function displayOnMap(position){
+      function displayOnMap(position){
         marker = handler.addMarker({
           lat: position.coords.latitude,
           lng: position.coords.longitude
@@ -54,36 +53,36 @@
       };
 
       var map = handler.getMap();
-      var count=3;
+
       google.maps.event.addListener(map, 'mousedown', function(event){
+        var counter=setTimeout(timer, 2200);
+        var latLng=event.latLng;
 
-          var counter=setTimeout(timer, 3000);
-          var latLng=event.latLng;
+        google.maps.event.addListener(map, 'mouseup', function(){
+          clearTimeout(counter)
+        });
 
-          google.maps.event.addListener(map, 'mouseup', function(){
-            clearTimeout(counter)
-          });
+        function timer(){
+          if (gon.new_parking_area.length == 0){
+            var marker = new google.maps.Marker({
+              position: latLng,
+              map: map,
+              icon: "http://chart.apis.google.com/chart?chst=d_map_pin_letter&chld=|C3BDBD|000000"
+            });
 
-          function timer(){
-             if (gon.new_parking_area.length == 0){
-               var marker = new google.maps.Marker({
-                  position: latLng,
-                  map: map
-                });
+              gon.new_parking_area.push(marker);
+              pressedLocationInfowindow.open(map, marker);
 
-               gon.new_parking_area.push(marker);
-               pressedLocationInfowindow.open(map, marker);
-
-               google.maps.event.addListener(pressedLocationInfowindow,'closeclick',function(){
-                 if(gon.new_parking_area.length > 0){
-                   gon.new_parking_area[0].setMap(null);
-                   gon.new_parking_area.pop();
-                 }
-                });
-             } else {
-               gon.new_parking_area[0].setPosition(latLng);
-             }
+              google.maps.event.addListener(pressedLocationInfowindow,'closeclick',function(){
+                if(gon.new_parking_area.length > 0){
+                  gon.new_parking_area[0].setMap(null);
+                  gon.new_parking_area.pop();
+                }
+              });
+      } else {
+        gon.new_parking_area[0].setPosition(latLng);
           }
+        }
       });
 
       function addPressedLocation(){
@@ -108,7 +107,7 @@
 
       function calcRoute(destinationLat, destinationLng) {
         var directionsService = new google.maps.DirectionsService();
-        var directionsDisplay = new google.maps.DirectionsRenderer();
+        var directionsDisplay = new google.maps.DirectionsRenderer({suppressMarkers:true});
 
         directionsDisplay.setMap(handler.getMap())
         if(gon.current_location.length > 0) {
