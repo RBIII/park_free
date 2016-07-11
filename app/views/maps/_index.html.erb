@@ -7,41 +7,61 @@
     <%= javascript_include_tag "application" %>
   </head>
   <body>
-    <div class="row">
-      <h5 style="text-align: center;" class="small-12 columns"><%= free_parking_area.title %></h5>
-    </div>
-    <div class="row">
-      <input class="button directions small-5 columns" type="button" value="Directions" onclick="calcRoute(<%= free_parking_area.latitude %>, <%= free_parking_area.longitude %>);">
-      <input class="button open-in-maps small-6 columns" type="button" value="Open in Maps" onclick="location.href='http://maps.apple.com/?q=<%= free_parking_area.latitude %>,<%= free_parking_area.longitude %>'">
+    <ul class="tabs" id="marker-tabs" data-tabs>
+      <div class="row">
+        <li class="small-6 columns tabs-title is-active" style="text-align: center;"><a href="#parking" aria-selected="true">Info</a></li>
+        <li class="small-6 columns tabs-title" style="text-align: center;"><a href="#comments">Comments</a></li>
+      </div>
+    </ul>
+
+    <div class="tabs-content" data-tabs-content="marker-tabs">
+      <div class="tabs-panel is-active" id="parking">
+        <div class="row">
+          <h5 style="text-align: center;" class="small-12 columns"><%= free_parking_area.title %></h5>
+        </div>
+        <div class="row">
+          <input class="button directions small-5 columns" type="button" value="Directions" onclick="calcRoute(<%= free_parking_area.latitude %>, <%= free_parking_area.longitude %>);">
+          <input class="button open-in-maps small-6 columns" type="button" value="Open in Maps" onclick="location.href='http://maps.apple.com/?q=<%= free_parking_area.latitude %>,<%= free_parking_area.longitude %>'">
+        </div>
+
+        <div class="row">
+          <% if free_parking_area.verified? %>
+            <h7 class="verified small-6 columns">Community Verified</h7>
+          <% else %>
+            <h7 class="unverified small-6 columns">Not Yet Verified</h7>
+          <% end %>
+
+          <% if verification && verification.value == 1 %>
+            <p class="small-6 columns"><%= link_to "Remove Verification", free_parking_area_verification_path(free_parking_area_id: free_parking_area, id: verification.id), method: :patch %></p>
+          <% elsif verification && verification.value == 0 %>
+            <p class="small-6 columns"><%= link_to "Add Verification", free_parking_area_verification_path(free_parking_area_id: free_parking_area, id: verification.id), method: :patch %></p>
+          <% else %>
+            <p class="small-6 columns"><%= link_to "Add Verification", free_parking_area_verifications_path(free_parking_area), method: :post %></p>
+          <% end %>
+        </div>
+
+        <div class="row">
+          <p class="small-12 columns"><%= free_parking_area.description unless free_parking_area.description == 'N/A' %></p>
+        </div>
+        <div class='row'>
+          <% if current_user && (free_parking_area.user == current_user || current_user.admin) %>
+            <p class='small-4 columns'><%= link_to 'Show', free_parking_area %></p>
+            <p class='small-3 columns'><%= link_to 'Edit', edit_free_parking_area_path(free_parking_area) %></p>
+            <p class='small-5 columns'><%= link_to 'Destroy', free_parking_area, method: :delete, data: { confirm: 'Are you sure?' } %></p>
+          <% else %>
+            <p class='small-4 columns' style="float:right;"><%= link_to 'Show', free_parking_area %></p>
+          <% end %>
+        </div>
+      </div>
+
+      <div class="tabs-panel" id="comments">
+        <p>this could be a comment!</p>
+      </div>
     </div>
 
-    <div class="row">
-      <% if free_parking_area.verified? %>
-        <h7 class="verified small-6 columns">Community Verified</h7>
-      <% else %>
-        <h7 class="unverified small-6 columns">Not Yet Verified</h7>
-      <% end %>
-
-      <% if verification && verification.value == 1 %>
-        <p class="small-6 columns"><%= link_to "Remove Verification", free_parking_area_verification_path(free_parking_area_id: free_parking_area, id: verification.id), method: :patch %></p>
-      <% elsif verification && verification.value == 0 %>
-        <p class="small-6 columns"><%= link_to "Add Verification", free_parking_area_verification_path(free_parking_area_id: free_parking_area, id: verification.id), method: :patch %></p>
-      <% else %>
-        <p class="small-6 columns"><%= link_to "Add Verification", free_parking_area_verifications_path(free_parking_area), method: :post %></p>
-      <% end %>
-    </div>
-
-    <div class="row">
-      <p class="small-12 columns"><%= free_parking_area.description unless free_parking_area.description == 'N/A' %></p>
-    </div>
-    <div class='row'>
-      <% if current_user && (free_parking_area.user == current_user || current_user.admin) %>
-        <p class='small-4 columns'><%= link_to 'Show', free_parking_area %></p>
-        <p class='small-3 columns'><%= link_to 'Edit', edit_free_parking_area_path(free_parking_area) %></p>
-        <p class='small-5 columns'><%= link_to 'Destroy', free_parking_area, method: :delete, data: { confirm: 'Are you sure?' } %></p>
-      <% else %>
-        <p class='small-4 columns' style="float:right;"><%= link_to 'Show', free_parking_area %></p>
-      <% end %>
-    </div>
+    <script src="js/vendor/jquery.min.js"></script>
+<script src="js/vendor/what-input.min.js"></script>
+<script src="js/foundation.min.js"></script>
+<script src="js/app.js"></script>
   </body>
 </html>

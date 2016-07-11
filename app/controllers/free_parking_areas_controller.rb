@@ -10,15 +10,16 @@ class FreeParkingAreasController < ApplicationController
 
     @free_parking_areas = FreeParkingArea.all
     @json_fpas = Gmaps4rails.build_markers(@free_parking_areas) do |fpa, marker|
-      marker.lat fpa.latitude
-      marker.lng fpa.longitude
+      marker.lat(fpa.latitude)
+      marker.lng(fpa.longitude)
       marker.picture({
-       :url => fpa.marker_color,
-       :width   => 32,
-       :height  => 32
+       url: fpa.marker_color,
+       height: 32,
+       width: 32
       })
+      
       verification = Verification.find_by(user_id: current_user.id, free_parking_area_id: fpa.id) unless current_user.nil?
-      marker.infowindow render_to_string(partial: "/maps/index.html.erb", locals: {user: current_user, free_parking_area: fpa, verification: verification})
+      marker.infowindow(render_to_string(partial: "/maps/index.html.erb", locals: {user: current_user, free_parking_area: fpa, verification: verification}))
     end
 
     respond_to do |format|
