@@ -22,6 +22,10 @@ function calcRoute(destinationLat, destinationLng) {
     });
   } else {
     alert("You must have location enabled for directions")
+    debugger;
+    if (navigator.geolocation) {
+      navigator.geolocation.getCurrentPosition(displayOnMap)
+    };
   };
 };
 
