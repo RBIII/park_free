@@ -2,6 +2,14 @@ var map;
 var currentLocation = null;
 var newParkingArea = null;
 
+function initMap() {
+  if ($("#index-map").data("jsonMarkers")) {
+    initIndexMap();
+  } else if ($("#show-map").data("jsonMarker")) {
+    initShowMap();
+  }
+}
+
 function calcRoute(destinationLat, destinationLng) {
   var directionsService = new google.maps.DirectionsService();
   var directionsDisplay = new google.maps.DirectionsRenderer({suppressMarkers:true});
@@ -22,7 +30,6 @@ function calcRoute(destinationLat, destinationLng) {
     });
   } else {
     alert("You must have location enabled for directions")
-    debugger;
     if (navigator.geolocation) {
       navigator.geolocation.getCurrentPosition(displayOnMap)
     };

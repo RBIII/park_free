@@ -6,6 +6,7 @@
     <title><%= content_for?(:title) ? yield(:title) : "Park Easy" %></title>
     <% title %>
     <%= stylesheet_link_tag    "application" %>
+    <%= javascript_include_tag "application", 'data-turbolinks-track' => true %>
     <%= csrf_meta_tags %>
   </head>
 
@@ -15,7 +16,7 @@
         <% if current_user %>
           <h3 id="new" class="small-3 medium-4 large-4 columns"><%= link_to 'New', new_parking_area_path, method: :get, class: "top-bar-text" %></h3>
           <h2 id="park-easy" class="small-5 medium-4 large-4 columns"><%= link_to "Park Easy", parking_areas_path, method: :get, class: "top-bar-text"%></h2>
-          <h4 id="sign-out" class="small-4 medium-3 large-2 columns"><%= link_to 'Sign Out', destroy_user_session_path, method: 'delete', class: "top-bar-text user_options" %></h4>
+          <h4 id="sign-out" class="small-4 medium-3 large-2 columns"><%= link_to 'Sign Out', destroy_user_session_path, method: :delete, class: "top-bar-text user_options" %></h4>
         <% else %>
           <h3 id="new" class="small-3 medium-3 large-4 columns"><%= link_to 'New', new_parking_area_path, method: :get, class: "top-bar-text" %></h3>
           <h2 id="park-easy" class="small-5 medium-4 large-4 columns"><%= link_to "Park Easy", parking_areas_path, method: :get, class: "top-bar-text"%></h2>
