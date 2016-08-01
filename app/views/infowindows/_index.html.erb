@@ -8,7 +8,7 @@
   </head>
   <body>
     <ul class="tabs" data-tabs id="marker-tabs">
-      <li class="small-6 columns tabs-title is-active" style="text-align: center;"><a onclick="selectParkingInfoTab(<%= parking_area.id %>)" id="info-tab-<%= parking_area.id %>" aria-selected="true">Info</a></li>
+      <li class="small-5 columns tabs-title is-active" style="text-align: center;"><a onclick="selectParkingInfoTab(<%= parking_area.id %>)" id="info-tab-<%= parking_area.id %>" aria-selected="true">Info</a></li>
       <li class="small-6 columns tabs-title" style="text-align: center;"><a onclick="selectCommentsTab(<%= parking_area.id %>)" id="comments-tab-<%= parking_area.id %>" aria-selected="false">Comments</a></li>
     </ul>
 
@@ -59,7 +59,7 @@
               <p class="callout small-12 colums"><%= comment.content %></p>
             <% end %>
           <% else %>
-            <h5 class="callout small-12 colums">No comments yet, be the first!</h5>
+            <h6 class="callout small-12 colums">No comments yet, be the first!</h6>
           <% end %>
           <p class="small-6 columns"><%= link_to "New Comment", parking_area_comments_path(parking_area), method: :post %></p>
         </div>
