@@ -5,6 +5,7 @@ class ParkingAreasController < ApplicationController
 
   def index
     verification = nil
+    @key = ENV["google_maps_key"] || Rails.application.secrets.google_maps_key
     @parking_areas = ParkingArea.all
 
     @json_parking_areas = Gmaps4rails.build_markers(@parking_areas) do |parking_area, marker|
@@ -31,6 +32,7 @@ class ParkingAreasController < ApplicationController
 
   def show
     verification = nil
+    @key = ENV["google_maps_key"] || Rails.application.secrets.google_maps_key
     @parking_area = ParkingArea.find(params[:id])
 
     @json_parking_area = Gmaps4rails.build_markers(@parking_area) do |parking_area, marker|
