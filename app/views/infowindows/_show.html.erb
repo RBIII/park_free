@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <%= stylesheet_link_tag 'application', media: 'all' %>
+    <%= javascript_include_tag "application" %>
+  </head>
+  <body>
+    <h5><%= parking_area.title %></h5>
+    <% if parking_area.verified? %>
+      <h7 class="verified small-7 columns">Community Verified</h7>
+    <% else %>
+      <h7 class="unverified small-7 columns">Not Yet Verified</h7>
+    <% end %>
+
+    <% if verification && verification.value == 1 %>
+      <p class="small-5 columns"><%= link_to "Remove Verification", parking_area_verification_path(parking_area_id: parking_area, id: verification.id), method: :patch %></p>
+    <% elsif verification && verification.value == 0 %>
+      <p class="small-5 columns"><%= link_to "Add Verification", parking_area_verification_path(parking_area_id: parking_area, id: verification.id), method: :patch %></p>
+    <% else %>
+      <p class="small-5 columns"><%= link_to "Add Verification", parking_area_verifications_path(parking_area), method: :post %></p>
+    <% end %>
+    <table>
+      <thead>
+        <tr>
+          <th>Address</th>
+          <th>City</th>
+          <th>State</th>
+          <th>Zip Code</th>
+          <th colspan="3"></th>
+        </tr>
+      </thead>
+
+      <tbody>
+        <tr>
+          <td><%= parking_area.address %></td>
+          <td><%= parking_area.city %></td>
+          <td><%= parking_area.state %></td>
+          <td><%= parking_area.zip_code %></td>
+        </tr>
+      </tbody>
+    </table>
+    <p class='description-text'><%= parking_area.description %></p>
+
+    <div class='row'>
+      <p class='small-6 columns'><%= link_to 'Edit', edit_parking_area_path(parking_area) if current_user && (parking_area.user == current_user || current_user.admin) %></p>
+      <p class='small-6 columns'><%= link_to 'Destroy', parking_area, method: :delete, data: { confirm: 'Are you sure?' } if current_user && (parking_area.user == current_user || curent_user.admin) %></p>
+    </div>
+  </body>
+</html>

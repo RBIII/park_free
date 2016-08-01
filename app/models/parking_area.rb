@@ -1,6 +1,6 @@
-class FreeParkingArea < ActiveRecord::Base
+class ParkingArea < ActiveRecord::Base
   belongs_to :user
-  has_many :comments, foreign_key: "fpa_id"
+  has_many :comments
   has_many :verifications
   geocoded_by :full_address
   after_validation :geocode

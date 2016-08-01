@@ -2,14 +2,14 @@ class VerificationsController < ApplicationController
   before_action :authenticate_user!
 
   def create
-    verification = Verification.new(user_id: current_user.id, free_parking_area_id: params["free_parking_area_id"], value: 1)
+    verification = Verification.new(user_id: current_user.id, parking_area_id: params["parking_area_id"], value: 1)
 
     if verification.save
       flash[:notice] = 'Verification added'
     else
       flash[:alert] = 'Error: Verification failed'
     end
-    redirect_to free_parking_areas_path
+    redirect_to parking_areas_path
   end
 
   def update
@@ -21,6 +21,6 @@ class VerificationsController < ApplicationController
       verification.update(value: 1)
       flash[:notice] = 'Verification status updated'
     end
-    redirect_to free_parking_areas_path
+    redirect_to parking_areas_path
   end
 end

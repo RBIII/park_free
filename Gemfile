@@ -13,7 +13,7 @@ gem 'gmaps4rails'
 gem 'geocoder'
 gem 'rails_12factor'
 gem 'lodash-rails'
-gem 'gon'
+gem  'tabs_on_rails'
 
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
 gem 'rails', '4.2.5.1'

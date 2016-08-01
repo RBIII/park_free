@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <%= stylesheet_link_tag 'application', media: 'all' %>
+    <%= javascript_include_tag "application" %>
+  </head>
+  <body>
+    <ul class="tabs" data-tabs id="marker-tabs">
+      <li class="small-6 columns tabs-title is-active" style="text-align: center;"><a onclick="selectParkingInfoTab(<%= parking_area.id %>)" id="info-tab-<%= parking_area.id %>" aria-selected="true">Info</a></li>
+      <li class="small-6 columns tabs-title" style="text-align: center;"><a onclick="selectCommentsTab(<%= parking_area.id %>)" id="comments-tab-<%= parking_area.id %>" aria-selected="false">Comments</a></li>
+    </ul>
+
+    <div class="tabs-content" data-tabs-content="marker-tabs">
+      <div class="tabs-panel is-active" id="parking-info-<%= parking_area.id %>">
+        <div class="row">
+          <h5 style="text-align: center;" class="small-12 columns"><%= parking_area.title %></h5>
+        </div>
+        <div class="row">
+          <input class="button round directions small-5 columns" type="button" value="Directions" onclick="calcRoute(<%= parking_area.latitude %>, <%= parking_area.longitude %>);">
+          <input class="button round open-in-maps small-6 columns" type="button" value="Open in Maps" onclick="location.href='http://maps.apple.com/?q=<%= parking_area.latitude %>,<%= parking_area.longitude %>'">
+        </div>
+
+        <div class="row">
+          <% if parking_area.verified? %>
+            <h7 class="verified small-6 columns">Community Verified</h7>
+          <% else %>
+            <h7 class="unverified small-6 columns">Not Yet Verified</h7>
+          <% end %>
+
+          <% if verification && verification.value == 1 %>
+            <p class="small-6 columns"><%= link_to "Remove Verification", parking_area_verification_path(parking_area_id: parking_area, id: verification.id), method: :patch %></p>
+          <% elsif verification && verification.value == 0 %>
+            <p class="small-6 columns"><%= link_to "Add Verification", parking_area_verification_path(parking_area_id: parking_area, id: verification.id), method: :patch %></p>
+          <% else %>
+            <p class="small-6 columns"><%= link_to "Add Verification", parking_area_verifications_path(parking_area), method: :post %></p>
+          <% end %>
+        </div>
+
+        <div class="row">
+          <p class="small-12 columns description-text"><%= parking_area.description unless parking_area.description == 'N/A' %></p>
+        </div>
+        <div class='row'>
+          <% if current_user && (parking_area.user == current_user || current_user.admin) %>
+            <p class='small-4 columns'><%= link_to 'Show', parking_area %></p>
+            <p class='small-3 columns'><%= link_to 'Edit', edit_parking_area_path(parking_area) %></p>
+            <p class='small-5 columns'><%= link_to 'Destroy', parking_area, method: :delete, data: { confirm: 'Are you sure?' } %></p>
+          <% else %>
+            <p class='small-4 columns' style="float:right;"><%= link_to 'Show', parking_area %></p>
+          <% end %>
+        </div>
+      </div>
+
+      <div class="tabs-panel" id="comments-<%= parking_area.id %>">
+        <div class="row">
+          <% unless comments.empty? %>
+            <% comments.each do |comment| %>
+              <p class="callout small-12 colums"><%= comment.content %></p>
+            <% end %>
+          <% else %>
+            <h5 class="callout small-12 colums">No comments yet, be the first!</h5>
+          <% end %>
+          <p class="small-6 columns"><%= link_to "New Comment", parking_area_comments_path(parking_area), method: :post %></p>
+        </div>
+      </div>
+    </div>
+  </body>
+</html>

@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html>
   <head>
@@ -9,7 +8,7 @@
   </head>
   <body>
     <div>
-      <%= content_tag "div", class: "index-map", id: "index-map", data: {json_markers: @json_fpas} do %>
+      <%= content_tag "div", class: "show-map", id: "show-map", data: {json_marker: @json_parking_area} do %>
       <% end %>
     </div>
 

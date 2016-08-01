@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <%= stylesheet_link_tag 'application', media: 'all' %>
+    <%= javascript_include_tag "application" %>
+  </head>
+  <body>
+    <div>
+      <%= content_tag "div", class: "index-map", id: "index-map", data: {json_markers: @json_parking_areas} do %>
+      <% end %>
+    </div>
+
+    <script src="https://maps.googleapis.com/maps/api/js?key=<%= Rails.application.secrets.google_maps_key %>&callback=initMap" async defer></script>
+  </body>
+</html>

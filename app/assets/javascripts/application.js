@@ -18,18 +18,42 @@
 //= require gmaps/google
 //= require_tree .
 
-$(function(){ $(document).foundation(); });
+$(function() { $(document).foundation(); });
 
 $(function() {
   $('.flash-messages').delay(1500).fadeOut(600);
 });
 
-$(document).ready(function(){
+$(document).ready(function() {
   $('.overlay').overlay();
 });
 
-function categoryGuide(){
+function categoryGuide() {
   setTimeout(function() {
       $('a.overlay-link').click();
   }, 10);
 };
+
+function selectParkingInfoTab(id) {
+  let commentsSelector = "#comments-" + id.toString()
+  let commentsTabSelector = "#comments-tab-" + id.toString()
+  let parkingInfoSelector = "#parking-info-" + id.toString()
+  let parkingTabSelector = "#info-tab-" + id.toString()
+
+  $(commentsSelector).removeClass("is-active");
+  $(commentsTabSelector).attr("aria-selected", "false")
+  $(parkingInfoSelector).addClass("is-active");
+  $(parkingTabSelector).attr("aria-selected", "true");
+}
+
+function selectCommentsTab(id) {
+  let commentsSelector = "#comments-" + id.toString()
+  let commentsTabSelector = "#comments-tab-" + id.toString()
+  let parkingInfoSelector = "#parking-info-" + id.toString()
+  let parkingTabSelector = "#info-tab-" + id.toString()
+
+  $(parkingInfoSelector).removeClass("is-active");
+  $(parkingTabSelector).attr("aria-selected", "false");
+  $(commentsSelector).addClass("is-active");
+  $(commentsTabSelector).attr("aria-selected", "true")
+}
