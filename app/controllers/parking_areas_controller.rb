@@ -126,12 +126,10 @@ class ParkingAreasController < ApplicationController
     end
   end
   private
-  # Use callbacks to share common setup or constraints between actions.
   def set_parking_area
     @parking_area = ParkingArea.find(params[:id])
   end
 
-  # Never trust parameters from the scary internet, only allow the white list through.
   def parking_area_params
     params.require(:parking_area).permit(:address, :city, :state, :country, :zip_code, :title, :description, :parking_type)
   end
