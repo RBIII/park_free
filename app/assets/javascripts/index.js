@@ -43,7 +43,7 @@ function initIndexMap() {
 
     var counter = setTimeout(function(){
       setPressedLocationMarker(latLng);
-    }, 1200);
+    }, 1000);
 
     google.maps.event.addListener(map, 'mouseup', function(){
       clearTimeout(counter)
