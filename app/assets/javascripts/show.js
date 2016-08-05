@@ -34,7 +34,7 @@ function initShowMap() {
     var latLng = event.latLng;
     var counter = setTimeout(function(){
       setPressedLocationMarker(latLng);
-    }, 1500);
+    }, 1200);
 
     google.maps.event.addListener(map, 'mouseup', function(){
       clearTimeout(counter)

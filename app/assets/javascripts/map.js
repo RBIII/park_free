@@ -1,6 +1,7 @@
 var map;
 var currentLocation = null;
 var newParkingArea = null;
+var openWindow = null;
 
 function calcRoute(destinationLat, destinationLng) {
   var directionsService = new google.maps.DirectionsService();
@@ -20,6 +21,11 @@ function calcRoute(destinationLat, destinationLng) {
         directionsDisplay.setDirections(response);
       };
     });
+
+    if (openWindow != null) {
+      openWindow.close();
+      openWindow = null;
+    }
   } else {
     alert("You must have location enabled for directions")
     getLocation();
@@ -103,12 +109,7 @@ function getLocation() {
 }
 
 function closeOtherWindows() {
-  if (currentLocation != null && newParkingArea != null) {
-    currentLocationInfowindow.close();
-    newParkingAreaInfoWindow.close();
-  } else if (currentLocation != null) {
-    currentLocationInfowindow.close();
-  } else if (newParkingArea != null) {
-    newParkingAreaInfoWindow.close();
-  }
+  if (currentLocation != null) currentLocationInfowindow.close();
+  if (newParkingArea != null) newParkingAreaInfoWindow.close();
+  if (openWindow != null) openWindow.close();
 }

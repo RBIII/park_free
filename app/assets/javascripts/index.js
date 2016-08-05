@@ -12,7 +12,8 @@ function initIndexMap() {
     (function() {
       var latLng = {lat: jsonMarkers[i].lat, lng: jsonMarkers[i].lng};
       var infowindow = new google.maps.InfoWindow({
-        content: jsonMarkers[i].infowindow
+        content: jsonMarkers[i].infowindow,
+        disableAutoPan: true
       });
 
       var marker = new google.maps.Marker({
@@ -23,6 +24,7 @@ function initIndexMap() {
 
       marker.addListener('click', function() {
         closeOtherWindows();
+        openWindow = infowindow;
         infowindow.open(map, marker);
       });
 
@@ -41,7 +43,7 @@ function initIndexMap() {
 
     var counter = setTimeout(function(){
       setPressedLocationMarker(latLng);
-    }, 1500);
+    }, 1200);
 
     google.maps.event.addListener(map, 'mouseup', function(){
       clearTimeout(counter)

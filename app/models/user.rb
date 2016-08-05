@@ -6,4 +6,8 @@ class User < ActiveRecord::Base
   has_many :verifications
   devise :database_authenticatable, :registerable,
          :recoverable, :rememberable, :trackable, :validatable
+
+  def get_score
+    self.comments * 2 + self.parking_areas * 5
+  end
 end

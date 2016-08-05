@@ -34,7 +34,7 @@
               <h4 class='overlay-text small-11 columns'>Free</h4>
               <br>
               <p class="parking-type-descriptions">Any parking that's both free and open to anyone. EX: Visitor parking,
-                free lots, etc. Does not include visitor parking</p>
+                free lots, etc. Does not include resident parking</p>
             </div>
             <div class='row'>
               <img class='overlay-marker small-2 columns' src="http://chart.apis.google.com/chart?chst=d_map_pin_letter&chld=|0084C6|000000">
@@ -62,7 +62,7 @@
 
     <%- flash.each do |key, value| -%>
       <div class="flash flash-<%= key %> flash-messages">
-        <%= value %>
+        <h5><%= value %></h5>
       </div>
     <% end %>
 
