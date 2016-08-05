@@ -12,6 +12,7 @@
 //
 //= require jquery
 //= require jquery_ujs
+//= require turbolinks
 //= require foundation
 //= require underscore
 //= require gmaps/google
@@ -23,8 +24,15 @@ $(function() {
   $('.flash-messages').delay(1500).fadeOut(600);
 });
 
-$(document).ready(function() {
+$(document).on('ready page:load', function () {
   $('.overlay').overlay();
+});
+
+$(document).on('ready page:load', function () {
+  $('.overlay').on('click', function(){
+    $(this).removeClass('shown');
+    return true;
+  });
 });
 
 function categoryGuide() {
@@ -34,10 +42,10 @@ function categoryGuide() {
 };
 
 function selectParkingInfoTab(id) {
-  let commentsSelector = "#comments-" + id.toString()
-  let commentsTabSelector = "#comments-tab-" + id.toString()
-  let parkingInfoSelector = "#parking-info-" + id.toString()
-  let parkingTabSelector = "#info-tab-" + id.toString()
+  var commentsSelector = "#comments-" + id.toString()
+  var commentsTabSelector = "#comments-tab-" + id.toString()
+  var parkingInfoSelector = "#parking-info-" + id.toString()
+  var parkingTabSelector = "#info-tab-" + id.toString()
 
   $(commentsSelector).removeClass("is-active");
   $(commentsTabSelector).attr("aria-selected", "false")
@@ -46,10 +54,10 @@ function selectParkingInfoTab(id) {
 }
 
 function selectCommentsTab(id) {
-  let commentsSelector = "#comments-" + id.toString()
-  let commentsTabSelector = "#comments-tab-" + id.toString()
-  let parkingInfoSelector = "#parking-info-" + id.toString()
-  let parkingTabSelector = "#info-tab-" + id.toString()
+  var commentsSelector = "#comments-" + id.toString()
+  var commentsTabSelector = "#comments-tab-" + id.toString()
+  var parkingInfoSelector = "#parking-info-" + id.toString()
+  var parkingTabSelector = "#info-tab-" + id.toString()
 
   $(parkingInfoSelector).removeClass("is-active");
   $(parkingTabSelector).attr("aria-selected", "false");

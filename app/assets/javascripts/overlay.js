@@ -1,11 +1,11 @@
-/* 
+/*
  * overlay.js v1.1.0
  * Copyright 2014 Joah Gerstenberg (www.joahg.com)
  */
-(function($) { 
+
+(function($) {
   $.fn.overlay = function() {
     overlay = $('.overlay');
-
     overlay.ready(function() {
       overlay.on('transitionend webkitTransitionEnd oTransitionEnd MSTransitionEnd', function(e) {
         if (!$(this).hasClass('shown')) return $(this).css('visibility', 'hidden');
@@ -23,7 +23,9 @@
       });
 
       overlay.on('click', function(e) {
-        if (e.target.className === $(this).attr('class')) return $(this).trigger('hide');
+        if (e.target.className === $(this).attr('class')) {
+          return $(this).trigger('hide');
+        }
       })
 
       $('a[data-overlay-trigger=""]').on('click', function() {

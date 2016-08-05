@@ -1,61 +1,52 @@
 function initIndexMap() {
-  let jsonMarkers = $("#index-map").data("jsonMarkers");
-  let centerPoint = new google.maps.LatLng(42.339169, -71.088474);
+  var jsonMarkers = $("#index-map").data("jsonMarkers");
+  var center = new google.maps.LatLng(42.339169, -71.088474);
   var bounds = new google.maps.LatLngBounds();
 
   map = new google.maps.Map(document.getElementById('index-map'), {
-    center: centerPoint,
+    center: center,
     zoom: 12
   });
 
   for (var i = 0; i <  jsonMarkers.length; ++i) {
-    let latLng = {lat: jsonMarkers[i].lat, lng: jsonMarkers[i].lng}
-    let infowindow = new google.maps.InfoWindow({
-      content: jsonMarkers[i].infowindow
-    });
+    (function() {
+      var latLng = {lat: jsonMarkers[i].lat, lng: jsonMarkers[i].lng};
+      var infowindow = new google.maps.InfoWindow({
+        content: jsonMarkers[i].infowindow
+      });
 
-    let marker = new google.maps.Marker({
-      position: latLng,
-      map: map,
-      icon: jsonMarkers[i].picture
-    });
+      var marker = new google.maps.Marker({
+        position: latLng,
+        map: map,
+        icon: jsonMarkers[i].picture
+      });
 
-    marker.addListener('click', function() {
-      infowindow.open(map, marker);
-    });
+      marker.addListener('click', function() {
+        closeOtherWindows();
+        infowindow.open(map, marker);
+      });
 
-    bounds.extend(marker.getPosition())
+      bounds.extend(marker.getPosition());
+    })();
   }
 
   // map.fitBounds(bounds)
 
-  if (navigator.geolocation) {
-    navigator.geolocation.getCurrentPosition(displayOnMap)
-  };
-
   google.maps.event.addListener(map, 'mousedown', function(event){
-    let latLng = event.latLng;
-    let centerPoint = map.getCenter();
+    sameCenter = true;
+    google.maps.event.addListener(map, 'drag', function(){
+      sameCenter = false;
+    });
+    var latLng = event.latLng;
+
     var counter = setTimeout(function(){
-      timer(latLng, centerPoint);
+      setPressedLocationMarker(latLng);
     }, 1500);
 
     google.maps.event.addListener(map, 'mouseup', function(){
       clearTimeout(counter)
     });
   });
+
+  google.maps.event.addDomListener(window, 'load', getLocation);
 }
-
-  function gmaps4rails_callback() {
-    function closeInfowindows(){
-      if(newParkingArea != null){
-        newParkingArea.setMap(null);
-        newParkingArea = null;
-      }
-    }
-
-    for (var i = 0; i <  Gmaps4Rails.markers.length; ++i) {
-
-      google.maps.event.addListener(Gmaps4Rails.markers[i].google_object, 'click', closeInfowindows());
-    }
-  }

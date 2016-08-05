@@ -7,10 +7,12 @@
     <%= javascript_include_tag "application" %>
   </head>
   <body>
-    <ul class="tabs" data-tabs id="marker-tabs">
-      <li class="small-5 columns tabs-title is-active" style="text-align: center;"><a onclick="selectParkingInfoTab(<%= parking_area.id %>)" id="info-tab-<%= parking_area.id %>" aria-selected="true">Info</a></li>
-      <li class="small-6 columns tabs-title" style="text-align: center;"><a onclick="selectCommentsTab(<%= parking_area.id %>)" id="comments-tab-<%= parking_area.id %>" aria-selected="false">Comments</a></li>
-    </ul>
+    <div class="row">
+      <ul class="tabs" data-tabs id="marker-tabs">
+        <li class="small-5 columns tabs-title" style="text-align: center; padding: 0;"><a onclick="selectParkingInfoTab(<%= parking_area.id %>)" id="info-tab-<%= parking_area.id %>" aria-selected="true">Info</a></li>
+        <li class="small-6 columns tabs-title" style="text-align: center; padding: 0;"><a onclick="selectCommentsTab(<%= parking_area.id %>)" id="comments-tab-<%= parking_area.id %>" aria-selected="false">Comments</a></li>
+      </ul>
+    </div>
 
     <div class="tabs-content" data-tabs-content="marker-tabs">
       <div class="tabs-panel is-active" id="parking-info-<%= parking_area.id %>">
@@ -18,8 +20,8 @@
           <h5 style="text-align: center;" class="small-12 columns"><%= parking_area.title %></h5>
         </div>
         <div class="row">
-          <input class="button round directions small-5 columns" type="button" value="Directions" onclick="calcRoute(<%= parking_area.latitude %>, <%= parking_area.longitude %>);">
-          <input class="button round open-in-maps small-6 columns" type="button" value="Open in Maps" onclick="location.href='http://maps.apple.com/?q=<%= parking_area.latitude %>,<%= parking_area.longitude %>'">
+          <input class="button round directions small-12 columns" type="button" value="Directions" onclick="calcRoute(<%= parking_area.latitude %>, <%= parking_area.longitude %>);">
+          <input class="button round open-in-maps small-12 columns" type="button" value="Open in Maps" onclick="location.href='http://maps.apple.com/?q=<%= parking_area.latitude %>,<%= parking_area.longitude %>'">
         </div>
 
         <div class="row">

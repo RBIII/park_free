@@ -57,7 +57,7 @@ class ParkingAreasController < ApplicationController
   def new
     @touched_area_array = params[:touch_located_parking_area].split(",").map! {|a| a.strip} if params[:touch_located_parking_area]
     @parking_area = ParkingArea.new
-    @parking_types = ["Free", "Metered", "2-Hour", "Parking Garage", "Other"]
+    @parking_types = ["Free", "Metered", "Short Term", "Parking Garage", "Other"]
 
     respond_to do |format|
       format.html
@@ -67,7 +67,7 @@ class ParkingAreasController < ApplicationController
 
 
   def edit
-    @parking_types = ["Free", "Metered", "2-Hour", "Parking Garage", "Other"]
+    @parking_types = ["Free", "Metered", "Short Term", "Parking Garage", "Other"]
   end
 
 

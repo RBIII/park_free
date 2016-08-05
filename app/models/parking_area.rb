@@ -35,7 +35,7 @@ class ParkingArea < ActiveRecord::Base
     elsif parking_type == "metered"
       #blue
       "http://chart.apis.google.com/chart?chst=d_map_pin_letter&chld=|0084C6|000000"
-    elsif parking_type == "2-hour"
+    elsif parking_type == "short term"
       #yellow
       "http://chart.apis.google.com/chart?chst=d_map_pin_letter&chld=|F3C300|000000"
     elsif parking_type == "parking garage"

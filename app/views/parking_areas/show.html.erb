@@ -5,13 +5,12 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <%= stylesheet_link_tag 'application', media: 'all' %>
     <%= javascript_include_tag "application" %>
+    <script src="https://maps.googleapis.com/maps/api/js?key=<%= @key %>&callback=initShowMap" async defer></script>
   </head>
   <body>
     <div>
       <%= content_tag "div", class: "show-map", id: "show-map", data: {json_marker: @json_parking_area} do %>
       <% end %>
     </div>
-
-    <script src="https://maps.googleapis.com/maps/api/js?key=<%= @key %>&callback=initMap" async defer></script>
   </body>
 </html>

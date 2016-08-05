@@ -6,7 +6,7 @@
     <title><%= content_for?(:title) ? yield(:title) : "Park Easy" %></title>
     <% title %>
     <%= stylesheet_link_tag    "application" %>
-    <%= javascript_include_tag "application" %>
+    <%= javascript_include_tag "application", 'data-turbolinks-track' => true %>
     <%= csrf_meta_tags %>
   </head>
 
@@ -31,23 +31,30 @@
           <div class="modal">
             <div class='row'>
               <img class='overlay-marker small-2 columns' src="http://chart.apis.google.com/chart?chst=d_map_pin_letter&chld=|009E3D|000000">
-              <h3 class='overlay-text small-10 columns'>Free</h3>
+              <h4 class='overlay-text small-11 columns'>Free</h4>
+              <br>
+              <p class="parking-type-descriptions">Any parking that's both free and open to anyone. EX: Visitor parking,
+                free lots, etc. Does not include visitor parking</p>
             </div>
             <div class='row'>
               <img class='overlay-marker small-2 columns' src="http://chart.apis.google.com/chart?chst=d_map_pin_letter&chld=|0084C6|000000">
-              <h3 class='overlay-text small-10 columns'>Metered</h3>
+              <h4 class='overlay-text small-11 columns'>Metered</h4>
+              <p class="parking-type-descriptions">Parking with pay meters. Need we say more?</p>
             </div>
             <div class='row'>
               <img class='overlay-marker small-2 columns' src="http://chart.apis.google.com/chart?chst=d_map_pin_letter&chld=|F3C300|000000">
-              <h3 class='overlay-text small-10 columns'>Two Hour</h3>
+              <h4 class='overlay-text small-11 columns'>Short Term</h4>
+              <p class="parking-type-descriptions">Any parking meant for short amounts of time. EX: fifteen minute to two hour parking</p>
             </div>
             <div class='row'>
               <img class='overlay-marker small-2 columns' src="http://chart.apis.google.com/chart?chst=d_map_pin_letter&chld=|E00024|000000">
-              <h3 class='overlay-text small-10 columns'>Parking Garage</h3>
+              <h4 class='overlay-text small-11 columns'>Parking Garage</h4>
+              <p class="parking-type-descriptions">Garages/lots where you can rent a spot for a pretty penny.</p>
             </div>
             <div class='row'>
               <img class='overlay-marker small-2 columns' src="http://chart.apis.google.com/chart?chst=d_map_pin_letter&chld=|282826|000000">
-              <h3 class='overlay-text small-10 columns'>Other</h3>
+              <h4 class='overlay-text small-11 columns'>Other</h4>
+              <p class="parking-type-descriptions">Anything else</p>
             </div>
           </div>
         </div>

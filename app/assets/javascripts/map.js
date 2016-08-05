@@ -2,14 +2,6 @@ var map;
 var currentLocation = null;
 var newParkingArea = null;
 
-function initMap() {
-  if ($("#index-map").data("jsonMarkers")) {
-    initIndexMap();
-  } else if ($("#show-map").data("jsonMarker")) {
-    initShowMap();
-  }
-}
-
 function calcRoute(destinationLat, destinationLng) {
   var directionsService = new google.maps.DirectionsService();
   var directionsDisplay = new google.maps.DirectionsRenderer({suppressMarkers:true});
@@ -30,15 +22,13 @@ function calcRoute(destinationLat, destinationLng) {
     });
   } else {
     alert("You must have location enabled for directions")
-    if (navigator.geolocation) {
-      navigator.geolocation.getCurrentPosition(displayOnMap)
-    };
+    getLocation();
   };
 };
 
 function displayOnMap(position) {
-  let latLng = {lat: position.coords.latitude, lng: position.coords.longitude}
-  let currentLocationInfowindow = new google.maps.InfoWindow({
+  var latLng = {lat: position.coords.latitude, lng: position.coords.longitude}
+  currentLocationInfowindow = new google.maps.InfoWindow({
     content: '<button onclick=addCurrentLocation()>Add Parking Area</button>'
   });
 
@@ -71,9 +61,9 @@ function addNewParkingArea() {
   });
 }
 
-function timer(latLng, centerPoint) {
-  if (centerPoint == map.getCenter()) {
-    let newParkingAreaInfoWindow = new google.maps.InfoWindow({
+function setPressedLocationMarker(latLng) {
+  if (sameCenter) {
+    newParkingAreaInfoWindow = new google.maps.InfoWindow({
       content: '<button onclick=addNewParkingArea()>Add Parking Area</button>'
     });
 
@@ -89,9 +79,13 @@ function timer(latLng, centerPoint) {
       newParkingArea.setPosition(latLng);
     }
 
+    google.maps.event.addListener(newParkingArea, 'click', function() {
+      newParkingAreaInfoWindow.open(map, newParkingArea);
+    });
+
     setTimeout(function() {
       newParkingAreaInfoWindow.open(map, newParkingArea);
-    }, 700);
+    }, 750);
 
     google.maps.event.addListener(newParkingAreaInfoWindow, 'closeclick', function() {
       if(newParkingArea != null) {
@@ -99,5 +93,22 @@ function timer(latLng, centerPoint) {
         newParkingArea = null
       }
     });
+  }
+}
+
+function getLocation() {
+  if (navigator.geolocation) {
+    navigator.geolocation.getCurrentPosition(displayOnMap)
+  };
+}
+
+function closeOtherWindows() {
+  if (currentLocation != null && newParkingArea != null) {
+    currentLocationInfowindow.close();
+    newParkingAreaInfoWindow.close();
+  } else if (currentLocation != null) {
+    currentLocationInfowindow.close();
+  } else if (newParkingArea != null) {
+    newParkingAreaInfoWindow.close();
   }
 }
