@@ -11,7 +11,10 @@
 // about supported directives.
 //
 //= require jquery
+//= require jquery.turbolinks
+//= require jquery.raty
 //= require jquery_ujs
+//= require ratyrate
 //= require turbolinks
 //= require foundation
 //= require underscore
@@ -42,25 +45,25 @@ function categoryGuide() {
 };
 
 function selectParkingInfoTab(id) {
-  var commentsSelector = "#comments-" + id.toString()
-  var commentsTabSelector = "#comments-tab-" + id.toString()
+  var reviewSelector = "#reviews-" + id.toString()
+  var reviewTabSelector = "#reviews-tab-" + id.toString()
   var parkingInfoSelector = "#parking-info-" + id.toString()
   var parkingTabSelector = "#info-tab-" + id.toString()
 
-  $(commentsSelector).removeClass("is-active");
-  $(commentsTabSelector).attr("aria-selected", "false")
+  $(reviewSelector).removeClass("is-active");
+  $(reviewTabSelector).attr("aria-selected", "false")
   $(parkingInfoSelector).addClass("is-active");
   $(parkingTabSelector).attr("aria-selected", "true");
 }
 
-function selectCommentsTab(id) {
-  var commentsSelector = "#comments-" + id.toString()
-  var commentsTabSelector = "#comments-tab-" + id.toString()
+function selectReviewsTab(id) {
+  var reviewSelector = "#reviews-" + id.toString()
+  var reviewTabSelector = "#reviews-tab-" + id.toString()
   var parkingInfoSelector = "#parking-info-" + id.toString()
   var parkingTabSelector = "#info-tab-" + id.toString()
 
   $(parkingInfoSelector).removeClass("is-active");
   $(parkingTabSelector).attr("aria-selected", "false");
-  $(commentsSelector).addClass("is-active");
-  $(commentsTabSelector).attr("aria-selected", "true")
+  $(reviewSelector).addClass("is-active");
+  $(reviewTabSelector).attr("aria-selected", "true")
 }

@@ -35,7 +35,7 @@ function calcRoute(destinationLat, destinationLng) {
 function displayOnMap(position) {
   var latLng = {lat: position.coords.latitude, lng: position.coords.longitude}
   currentLocationInfowindow = new google.maps.InfoWindow({
-    content: '<button onclick=addCurrentLocation()>Add Parking Area</button>'
+    content: '<button onclick=addCurrentLocation() class="button" style="margin-bottom: 0px;">Add Parking Area</button>'
   });
 
   currentLocation = new google.maps.Marker({
@@ -70,7 +70,7 @@ function addNewParkingArea() {
 function setPressedLocationMarker(latLng) {
   if (sameCenter) {
     newParkingAreaInfoWindow = new google.maps.InfoWindow({
-      content: '<button onclick=addNewParkingArea()>Add Parking Area</button>'
+      content: '<button onclick=addNewParkingArea() class="button" style="margin-bottom: 0px;">Add Parking Area</button>'
     });
 
     if (newParkingArea == null) {
@@ -112,4 +112,9 @@ function closeOtherWindows() {
   if (currentLocation != null) currentLocationInfowindow.close();
   if (newParkingArea != null) newParkingAreaInfoWindow.close();
   if (openWindow != null) openWindow.close();
+}
+
+function closeWindow() {
+  openWindow.close();
+  openWindow = null;
 }

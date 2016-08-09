@@ -59,12 +59,11 @@
           </div>
         </div>
     </nav>
-
-    <%- flash.each do |key, value| -%>
-      <div class="flash flash-<%= key %> flash-messages">
-        <h5><%= value %></h5>
-      </div>
-    <% end %>
+      <%- flash.each do |key, value| -%>
+        <div class="flash flash-<%= key %> flash-messages">
+          <p class="flash-text"><%= value %></p>
+        </div>
+      <% end %>
 
     <%= yield %>
 

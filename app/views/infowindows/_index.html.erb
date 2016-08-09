@@ -7,15 +7,15 @@
     <%= javascript_include_tag "application" %>
   </head>
   <body>
-    <div class="infowindow-content">
+    <div class="infowindow-content" style="height: 300px;">
       <div class="row">
         <ul class="tabs" data-tabs id="marker-tabs">
           <li class="small-5 columns tabs-title" style="text-align: center; padding: 0;"><a onclick="selectParkingInfoTab(<%= parking_area.id %>)" id="info-tab-<%= parking_area.id %>" aria-selected="true">Info</a></li>
-          <li class="small-6 columns tabs-title" style="text-align: center; padding: 0;"><a onclick="selectCommentsTab(<%= parking_area.id %>)" id="comments-tab-<%= parking_area.id %>" aria-selected="false">Comments</a></li>
+          <li class="small-6 columns tabs-title" style="text-align: center; padding: 0;"><a onclick="selectReviewsTab(<%= parking_area.id %>)" id="reviews-tab-<%= parking_area.id %>" aria-selected="false">Reviews</a></li>
         </ul>
       </div>
 
-      <div class="tabs-content" data-tabs-content="marker-tabs">
+      <div class="tabs-content" data-tabs-content="marker-tabs"  onclick="closeWindow()">
         <div class="tabs-panel is-active" id="parking-info-<%= parking_area.id %>">
           <div class="row">
             <h5 style="text-align: center;" class="small-12 columns"><%= parking_area.title %></h5>
@@ -55,16 +55,29 @@
           </div>
         </div>
 
-        <div class="tabs-panel" id="comments-<%= parking_area.id %>">
-          <div class="row">
-            <% unless comments.empty? %>
-              <% comments.each do |comment| %>
-                <p class="callout small-12 colums"><%= comment.content %></p>
-              <% end %>
-            <% else %>
-              <h6 class="callout small-12 colums">No comments yet, be the first!</h6>
+        <div class="tabs-panel" id="reviews-<%= parking_area.id %>">
+          <% unless reviews.empty? %>
+            <% reviews.each do |review| %>
+              <div class="review-area">
+                <%= rating_for_user review, review.user, "rating" %>
+                <div class="row">
+                  <p class="review-text small-12 columns"><%= review.content %></p>
+                </div>
+                <% if current_user == review.user %>
+                  <div class="row">
+                    <p class="small-5 columns"><%= link_to "Edit", edit_parking_area_review_path(parking_area, review), class: "" %></p>
+                    <p class="small-7 columns"><%= link_to "Delete", parking_area_review_path(parking_area, review), method: :delete %></p>
+                  </div>
+                <% end %>
+              </div>
             <% end %>
-            <p class="small-6 columns"><%= link_to "New Comment", parking_area_comments_path(parking_area), method: :post %></p>
+          <% else %>
+            <div class="review-area">
+              <p class="review-text small-12 columns">No reviews yet. Be the first!</p>
+            </div>
+          <% end %>
+          <div class="row">
+            <p class="small-12 columns"><%= link_to "New Review", new_parking_area_review_path(parking_area), method: :get %></p>
           </div>
         </div>
       </div>

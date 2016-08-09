@@ -1,6 +1,29 @@
+@import "settings";
+
 .description-text {
   padding-top: 5px;
   padding-bottom: 5px;
   border: 1px solid #2199e8;
   margin-top: 4%;
+}
+
+.infowindow-content {
+  @include breakpoint(medium) {
+    min-width: 280px;
+  }
+
+  @include breakpoint(small down) {
+    width: 230px;
+    overflow: auto;
+  }
+}
+
+.review-area {
+  margin-bottom: 2%;
+  border: 1px solid #2199e8;
+}
+
+.review-text {
+  padding-top: 5%;
+  padding-bottom: 5%;
 }

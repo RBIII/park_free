@@ -1,6 +1,6 @@
 class ParkingAreasController < ApplicationController
   before_action :authenticate_user!, except: [:index, :show, :redirect_to_new_from_map]
-  before_action :set_parking_area, only: [:show, :edit, :update, :destroy]
+  before_action :get_parking_area, only: [:show, :edit, :update, :destroy]
 
 
   def index
@@ -19,8 +19,8 @@ class ParkingAreasController < ApplicationController
       })
 
       verification = Verification.find_by(user_id: current_user.id, parking_area_id: parking_area.id) unless current_user.nil?
-      comments = parking_area.comments.includes(:user)
-      marker.infowindow(render_to_string(partial: "/infowindows/index.html.erb", locals: {user: current_user, parking_area: parking_area, verification: verification, comments: comments}))
+      reviews = parking_area.reviews.includes(:user)
+      marker.infowindow(render_to_string(partial: "/infowindows/index.html.erb", locals: {user: current_user, parking_area: parking_area, verification: verification, reviews: reviews}))
     end
 
     respond_to do |format|
@@ -67,6 +67,7 @@ class ParkingAreasController < ApplicationController
 
 
   def edit
+    @parking_area = ParkingArea.find(params[:id])
     @parking_types = ["Free", "Metered", "Short Term", "Parking Garage", "Other"]
   end
 
@@ -78,7 +79,7 @@ class ParkingAreasController < ApplicationController
 
     respond_to do |format|
       if @parking_area.save
-        format.html { redirect_to parking_areas_path, notice: 'Parking area was successfully created.' }
+        format.html { redirect_to parking_areas_path, notice: 'Parking area was successfully created' }
         format.json { render :show, status: :created, location: @parking_area }
       else
         format.html { render :new }
@@ -93,7 +94,7 @@ class ParkingAreasController < ApplicationController
 
     respond_to do |format|
       if @parking_area.update(parking_area_params)
-        format.html { redirect_to parking_areas_path, notice: 'Parking area was successfully updated.' }
+        format.html { redirect_to parking_areas_path, notice: 'Parking area was successfully updated' }
         format.json { render :show, status: :ok, location: @parking_area }
       else
         format.html { render :edit }
@@ -106,7 +107,7 @@ class ParkingAreasController < ApplicationController
   def destroy
     @parking_area.destroy
     respond_to do |format|
-      format.html { redirect_to parking_areas_url, notice: 'Parking area was successfully destroyed.' }
+      format.html { redirect_to parking_areas_url, notice: 'Parking area was successfully destroyed' }
       format.json { head :no_content }
     end
   end
@@ -126,7 +127,7 @@ class ParkingAreasController < ApplicationController
     end
   end
   private
-  def set_parking_area
+  def get_parking_area
     @parking_area = ParkingArea.find(params[:id])
   end
 
