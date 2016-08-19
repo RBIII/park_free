@@ -76,14 +76,15 @@ class ParkingAreasController < ApplicationController
     @parking_area = ParkingArea.new(parking_area_params)
     @parking_area.user = current_user
     @parking_area.parking_type = @parking_area.parking_type.downcase
+    @parking_types = ["Free", "Metered", "Short Term", "Parking Garage", "Other"]
 
     respond_to do |format|
       if @parking_area.save
         format.html { redirect_to parking_areas_path, notice: 'Parking area was successfully created' }
-        format.json { render :show, status: :created, location: @parking_area }
       else
+        binding.pry
+        flash[:alert] = "Error: required field missing"
         format.html { render :new }
-        format.json { render json: @parking_area.errors, status: :unprocessable_entity }
       end
     end
   end
@@ -95,10 +96,10 @@ class ParkingAreasController < ApplicationController
     respond_to do |format|
       if @parking_area.update(parking_area_params)
         format.html { redirect_to parking_areas_path, notice: 'Parking area was successfully updated' }
-        format.json { render :show, status: :ok, location: @parking_area }
       else
+        binding.pry
+        flash[:alert] = "Error: required field missing"
         format.html { render :edit }
-        format.json { render json: @parking_area.errors, status: :unprocessable_entity }
       end
     end
   end

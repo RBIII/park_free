@@ -9,7 +9,7 @@
   <body>
     <div class="form-contents">
       <%= form_for(@parking_area) do |f| %>
-        <% if @parking_area.errors.any? %>
+        <!-- <% if @parking_area.errors.any? %>
           <div id="error_explanation">
             <h2><%= pluralize(@parking_area.errors.count, "error") %> prohibited this parking area from being saved:</h2>
 
@@ -19,8 +19,8 @@
             <% end %>
             </ul>
           </div>
-        <% end %>
-        <% binding.pry %>
+        <% end %> -->
+
         <div class="field">
           <%= f.label :address %><br>
           <%= f.text_field :address, value: @touched_area_array ? @touched_area_array[0] : @parking_area.address %>
@@ -54,7 +54,7 @@
           <%= f.text_area :description, class: "text-area" %>
         </div>
         <div class="actions">
-          <%= f.submit %>
+          <%= f.submit class: "round button"%>
         </div>
       <% end %>
     </div>

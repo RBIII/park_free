@@ -26,10 +26,15 @@
         if (e.target.className === $(this).attr('class')) {
           return $(this).trigger('hide');
         }
-      })
+      });
 
-      $('a[data-overlay-trigger=""]').on('click', function() {
-        overlay.trigger('show');
+      $('a[data-overlay-trigger=""]').unbind('click').bind('click', function(e) {
+        toggleOverlayButtonColor(overlay);
+        if (overlay.hasClass('shown')) {
+          overlay.trigger('hide');
+        } else {
+          overlay.trigger('show');
+        }
       });
 
       $('a[data-overlay-trigger]:not([data-overlay-trigger=""])').on('click', function() {

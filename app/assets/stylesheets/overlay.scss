@@ -4,6 +4,10 @@
  * Copyright 2014 Joah Gerstenberg (www.joahg.com)
  */
 
+#marker_guide_link {
+  position: absolute;
+}
+
 .overlay {
   visibility: hidden;
   opacity: 0;
@@ -26,8 +30,8 @@
   transition: opacity 0.3s ease-in-out;
 
   @include breakpoint(large) {
-    width: 20vw;
-    background-color: rgb(255,255,255);
+    width: 28vw;
+    max-width: 40%;
   }
 }
 
@@ -51,4 +55,10 @@
 
 .overlay.shown {
   opacity: 1;
+}
+
+#close-overlay {
+  position:absolute;
+  top:0;
+  right:10px;
 }

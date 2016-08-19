@@ -13,7 +13,6 @@ function initIndexMap() {
       var latLng = {lat: jsonMarkers[i].lat, lng: jsonMarkers[i].lng};
       var infowindow = new google.maps.InfoWindow({
         content: jsonMarkers[i].infowindow
-        //, disableAutoPan: true
       });
 
       var marker = new google.maps.Marker({

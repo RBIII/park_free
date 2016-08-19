@@ -33,7 +33,45 @@ function calcRoute(destinationLat, destinationLng) {
 };
 
 function displayOnMap(position) {
+//   if (navigator.geolocation) {
+//     navigator.geolocation.getCurrentPosition(function(position){
+//     var latitude = position.coords.latitude;
+//     var longitude = position.coords.longitude;
+//     var accuracy = position.coords.accuracy;
+//     var coords = new google.maps.LatLng(latitude, longitude);
+//     var mapOptions = {
+//         zoom: 15,
+//         center: coords,
+//         mapTypeControl: true,
+//         navigationControlOptions: {
+//             style: google.maps.NavigationControlStyle.SMALL
+//         },
+//         mapTypeId: google.maps.MapTypeId.ROADMAP
+//         };
+//
+//      var capa = document.getElementById("capa");
+//      capa.innerHTML = "latitud: " + latitude + " longitud: " + "   aquesta es la precisio en metres  :  " + accuracy;
+//
+//         map = new google.maps.Map(
+//             document.getElementById("mapContainer"), mapOptions
+//             );
+//         var marker = new google.maps.Marker({
+//                 position: coords,
+//                 map: map,
+//                 title: "ok"
+//         });
+//
+//
+//     },function error(msg){alert('Please enable your GPS position future.');
+//
+//   }, {maximumAge:600000, timeout:5000, enableHighAccuracy: true});
+//
+// }else {
+//     alert("Geolocation API is not supported in your browser.");
+// }
+
   var latLng = {lat: position.coords.latitude, lng: position.coords.longitude}
+  var accuracy = position.coords.accuracy
   currentLocationInfowindow = new google.maps.InfoWindow({
     content: '<button onclick=addCurrentLocation() class="button" style="margin-bottom: 0px;">Add Parking Area</button>'
   });
@@ -47,7 +85,7 @@ function displayOnMap(position) {
   google.maps.event.addListener(currentLocation, 'click', function(object){
     currentLocationInfowindow.open(map, currentLocation);
   });
-};
+}
 
 function addCurrentLocation() {
   $.ajax({
@@ -104,8 +142,12 @@ function setPressedLocationMarker(latLng) {
 
 function getLocation() {
   if (navigator.geolocation) {
-    navigator.geolocation.getCurrentPosition(displayOnMap)
-  };
+    navigator.geolocation.watchPosition(displayOnMap,
+       function error(msg){ alert('Please enable your GPS postion feature');
+    }, {maximumAge:Infinity, timeout:60000, enableHighAccuracy: true});
+  } else {
+    alert("Geolocation API is not enabled in your browser.");
+  }
 }
 
 function closeOtherWindows() {
