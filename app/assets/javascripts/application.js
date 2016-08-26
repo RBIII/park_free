@@ -42,9 +42,7 @@ $(document).on('ready page:load', function () {
 function toggleOverlayButtonColor(overlay) {
   if(overlay.hasClass('shown')) {
     $('#marker_guide_link').addClass('secondary');
-    $('#marker_guide_link').removeClass('success');
   } else {
-    $('#marker_guide_link').addClass('success');
     $('#marker_guide_link').removeClass('secondary');
   }
 }

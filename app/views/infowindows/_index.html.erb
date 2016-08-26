@@ -59,7 +59,20 @@
           <% unless reviews.empty? %>
             <% reviews.each do |review| %>
               <div class="review-area">
-                <%= rating_for_user review, review.user, "rating" %>
+                <%= rating_for_user review, current_user %>
+                <div class="voting">
+                  <% if current_user.upvoted?(review) %>
+                    <%= link_to "⬆", upvote_review_votes_path(review), method: :post, class: "upvoted" %>
+                  <% else %>
+                    <%= link_to "⬆", upvote_review_votes_path(review), method: :post %>
+                  <% end %>
+                  <%= review.sum_of_votes %>
+                  <% if current_user.downvoted?(review) %>
+                    <%= link_to "⬇", downvote_review_votes_path(review), method: :post, :class => "downvoted" %>
+                  <% else %>
+                    <%= link_to "⬇", downvote_review_votes_path(review), method: :post %>
+                  <% end %>
+                  </div>
                 <div class="row">
                   <p class="review-text small-12 columns"><%= review.content %></p>
                 </div>
@@ -73,7 +86,9 @@
             <% end %>
           <% else %>
             <div class="review-area">
-              <p class="review-text small-12 columns">No reviews yet. Be the first!</p>
+              <div class="row">
+                <p class="review-text small-12 columns">No reviews yet. Be the first!</p>
+              </div>
             </div>
           <% end %>
           <div class="row">

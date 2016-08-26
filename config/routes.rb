@@ -1,7 +1,8 @@
 Rails.application.routes.draw do
-  post '/rate' => 'rater#create', :as => 'rate'
-  devise_for :users
   root 'parking_areas#index'
+
+  post '/rate' => 'rater#create', :as => 'rate'
+  devise_for :users, :controllers => { :omniauth_callbacks => "users/omniauth_callbacks" }
 
   resources :parking_areas do
     resources :verifications, only: [:create, :update]
@@ -11,5 +12,11 @@ Rails.application.routes.draw do
 
   resources :reviews, only: [] do
     resources :comments, except: [:show, :index]
+    resources :votes, only: [] do
+      collection do
+        post 'upvote'
+        post 'downvote'
+      end
+    end
   end
 end

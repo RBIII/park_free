@@ -6,6 +6,7 @@ class ReviewsController < ApplicationController
     @review = Review.new()
     @parking_area = ParkingArea.find(params[:parking_area_id])
     @ratings = (1..10).to_a
+    binding.pry
   end
 
   def create
@@ -15,9 +16,11 @@ class ReviewsController < ApplicationController
 
     respond_to do |format|
       if review.save
+        flash[:notice] = "Review added"
         format.html { redirect_to parking_areas_path }
       else
-        format.html { render :new }
+        flash[:alert] = "Error: you cannot add mutiple reviews to the same parking area"
+        format.html { redirect_to parking_areas_path }
       end
     end
   end
@@ -34,6 +37,7 @@ class ReviewsController < ApplicationController
       if @review.update(review_params)
         format.html { redirect_to parking_areas_path, notice: 'Review Saved!'}
       else
+        @parking_area = ParkingArea.find(params[:parking_area_id])
         format.html { render :edit }
       end
     end

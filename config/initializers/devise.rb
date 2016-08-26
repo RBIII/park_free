@@ -1,6 +1,22 @@
 # Use this hook to configure devise mailer, warden hooks and so forth.
 # Many of these configuration options can be set straight in your model.
 Devise.setup do |config|
+  if Rails.env.development?
+    config.omniauth :google_oauth2, "870456474276-buep3a6ds2192sfv5s6sbu670cdv8rj4.apps.googleusercontent.com", "dAx4J7yBahNWCzBVhkssWYw2", { }
+  else
+    #TODO: change this
+    config.omniauth :google_oauth2, "870456474276-buep3a6ds2192sfv5s6sbu670cdv8rj4.apps.googleusercontent.com", "dAx4J7yBahNWCzBVhkssWYw2", { }
+  end
+
+  if Rails.env.development?
+    config.omniauth :facebook, "1754377511517240", "cba4f709928b7bd932c3856aaa90fa96",
+    callback_url: "https://583f3667.ngrok.io/users/auth/facebook/callback"
+  else
+    #TODO: change this
+    config.omniauth :facebook, "1754377511517240", "cba4f709928b7bd932c3856aaa90fa96",
+    callback_url: "https://583f3667.ngrok.io/users/auth/facebook/callback"
+  end
+
   # The secret key used by Devise. Devise uses this key to generate
   # random tokens. Changing this key will render invalid all existing
   # confirmation, reset password and unlock tokens in the database.

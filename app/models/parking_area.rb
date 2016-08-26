@@ -1,11 +1,12 @@
 class ParkingArea < ActiveRecord::Base
   belongs_to :user
-  has_many :reviews
+  has_many :reviews, dependent: :destroy
   has_many :comments, through: :reviews
   has_many :verifications
   geocoded_by :full_address
   after_validation :geocode
   before_update :format_params
+
   validates :user_id, presence: true
   validates :address, presence: true
   validates :city, presence: true

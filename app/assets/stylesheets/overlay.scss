@@ -4,11 +4,6 @@
  * Copyright 2014 Joah Gerstenberg (www.joahg.com)
  */
 
-#marker_guide_link {
-  position: absolute;
-  margin-bottom: .5%;
-}
-
 .overlay {
   visibility: hidden;
   opacity: 0;
@@ -31,8 +26,8 @@
   transition: opacity 0.3s ease-in-out;
 
   @include breakpoint(large) {
-    width: 28vw;
-    max-width: 40%;
+    width: 32vw;
+    max-width: 30%;
   }
 }
 
@@ -45,8 +40,9 @@
   right: 0;
   left: 0;
   margin: auto;
-  max-width: 400px;
-  max-height: 470px;
+  height: 86vh;
+  max-width: 450px;
+  max-height: 500px;
   padding: 20px;
   background-color: rgb(255,255,255);
   -webkit-border-radius: 3px;

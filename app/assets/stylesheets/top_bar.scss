@@ -21,10 +21,8 @@ a {
   color: white !important;
 }
 
-.overlay-link {
-  margin-left: 68%;
-  position: absolute;
-  bottom: 2%;
+.top-bar-text:hover {
+    color: #aaa !important;
 }
 
 #park-easy {
@@ -34,4 +32,10 @@ a {
 .overlay-marker {
   padding: 0;
   width: 20px !important;
+}
+
+#marker_guide_link {
+  margin-left: 65vw;
+  position: absolute;
+  bottom: 0;
 }

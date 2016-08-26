@@ -15,6 +15,8 @@ gem 'rails_12factor'
 gem 'lodash-rails'
 gem 'ratyrate'
 gem 'jquery-turbolinks'
+gem 'omniauth-google-oauth2'
+gem 'omniauth-facebook'
 
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
 gem 'rails', '4.2.5.1'
@@ -30,7 +32,6 @@ gem 'coffee-rails', '~> 4.1.0'
 
 # Use jquery as the JavaScript library
 gem 'jquery-rails'
-gem 'jquery_mobile_rails'
 
 # Turbolinks makes following links in your web application faster. Read more: https://github.com/rails/turbolinks
 gem 'turbolinks'
