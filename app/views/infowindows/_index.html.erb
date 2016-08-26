@@ -59,15 +59,15 @@
           <% unless reviews.empty? %>
             <% reviews.each do |review| %>
               <div class="review-area">
-                <%= rating_for_user review, current_user %>
+                <%= rating_for review %>
                 <div class="voting">
-                  <% if current_user.upvoted?(review) %>
+                  <% if current_user && current_user.upvoted?(review) %>
                     <%= link_to "⬆", upvote_review_votes_path(review), method: :post, class: "upvoted" %>
                   <% else %>
                     <%= link_to "⬆", upvote_review_votes_path(review), method: :post %>
                   <% end %>
                   <%= review.sum_of_votes %>
-                  <% if current_user.downvoted?(review) %>
+                  <% if current_user && current_user.downvoted?(review) %>
                     <%= link_to "⬇", downvote_review_votes_path(review), method: :post, :class => "downvoted" %>
                   <% else %>
                     <%= link_to "⬇", downvote_review_votes_path(review), method: :post %>
