@@ -7,56 +7,59 @@
     <%= javascript_include_tag "application" %>
   </head>
   <body>
-    <div class="form-contents">
-      <%= form_for(@parking_area) do |f| %>
-        <!-- <% if @parking_area.errors.any? %>
-          <div id="error_explanation">
-            <h2><%= pluralize(@parking_area.errors.count, "error") %> prohibited this parking area from being saved:</h2>
+    <div class="form">
+      <div class="form-contents">
+        <%= form_for(@parking_area) do |f| %>
+          <!-- <% if @parking_area.errors.any? %>
+            <div id="error_explanation">
+              <h2><%= pluralize(@parking_area.errors.count, "error") %> prohibited this parking area from being saved:</h2>
 
-            <ul>
-            <% @parking_area.errors.full_messages.each do |message| %>
-              <li><%= message %></li>
-            <% end %>
-            </ul>
+              <ul>
+              <% @parking_area.errors.full_messages.each do |message| %>
+                <li><%= message %></li>
+              <% end %>
+              </ul>
+            </div>
+          <% end %> -->
+
+          <div class="field">
+            <%= f.label :address %><br>
+            <%= f.text_field :address, value: @location_hash ? @location_hash[:address] : @parking_area.address %>
           </div>
-        <% end %> -->
-
-        <div class="field">
-          <%= f.label :address %><br>
-          <%= f.text_field :address, value: @touched_area_array ? @touched_area_array[0] : @parking_area.address %>
-        </div>
-        <div class="field">
-          <%= f.label :city %><br>
-          <%= f.text_field :city, value: @touched_area_array ? @touched_area_array[1] : @parking_area.city %>
-        </div>
-        <div class="field">
-          <%= f.label :state %><br>
-          <%= f.text_field :state, value: @touched_area_array ? @touched_area_array[2].split(" ")[0] : @parking_area.state %>
-        </div>
-        <div class="field">
-          <%= f.label :country %><br>
-          <%= f.text_field :country, value: @touched_area_array ? @touched_area_array[3] : @parking_area.country %>
-        </div>
-        <div class="field">
-          <%= f.label "zip code" %><br>
-          <%= f.text_field :zip_code, value: @touched_area_array ? @touched_area_array[2].split(" ")[1] : @parking_area.zip_code %>
-        </div>
-        <div class="field">
-          <%= f.label :title %><br>
-          <%= f.text_field :title %>
-        </div>
-        <div class="field">
-          <%= f.label :parking_type %><br>
-          <%= f.select :parking_type, @parking_types %>
-        </div>
-        <div class="field">
-          <%= f.label :description, "Any other details" %><br>
-          <%= f.text_area :description, class: "text-area" %>
-        </div>
-        <div class="actions">
-          <%= f.submit class: "round button"%>
-        </div>
-      <% end %>
+          <div class="field">
+            <%= f.label :city %><br>
+            <%= f.text_field :city, value: @location_hash ? @location_hash[:city] : @parking_area.city %>
+          </div>
+          <div class="field">
+            <%= f.label :state %><br>
+            <%= f.text_field :state, value: @location_hash ? @location_hash[:state] : @parking_area.state %>
+          </div>
+          <div class="field">
+            <%= f.label :country %><br>
+            <%= f.text_field :country, value: @location_hash ? @location_hash[:country] : @parking_area.country %>
+          </div>
+          <div class="field">
+            <%= f.label "zip code" %><br>
+            <%= f.text_field :zip_code, value: @location_hash ? @location_hash[:zip_code] : @parking_area.zip_code %>
+          </div>
+          <div class="field">
+            <%= f.label :title %><br>
+            <%= f.text_field :title %>
+          </div>
+          <div class="field">
+            <%= f.label :parking_type %><br>
+            <%= f.select :parking_type, @parking_types %>
+          </div>
+          <div class="field">
+            <%= f.label :description, "Any other details" %><br>
+            <%= f.text_area :description, class: "text-area" %>
+          </div>
+          <div class="actions">
+            <%= f.submit class: "round button"%>
+          </div>
+        <% end %>
+      </div>
     </div>
+
   </body>
 </html>

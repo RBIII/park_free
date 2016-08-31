@@ -32,6 +32,7 @@
 }
 
 .overlay .modal {
+  overflow: scroll;
   cursor: auto;
   position: absolute;
   z-index: 11;
@@ -52,6 +53,10 @@
 
 .overlay.shown {
   opacity: 1;
+}
+
+.overlay-marker {
+  margin-right: 2%;
 }
 
 #close-overlay {

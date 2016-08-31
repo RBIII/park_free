@@ -12,7 +12,7 @@ class User < ActiveRecord::Base
          :omniauthable, omniauth_providers: [:google_oauth2, :facebook]
 
   def get_score
-    self.comments * 2 + self.parking_areas * 5
+    return self.comments * 2 + self.parking_areas * 5 + self.votes * 0.5
   end
 
   def self.from_omniauth(access_token)

@@ -5,7 +5,8 @@ function initIndexMap() {
 
   map = new google.maps.Map(document.getElementById('index-map'), {
     center: center,
-    zoom: 12
+    zoom: 12,
+    width: 500
   });
 
   for (var i = 0; i <  jsonMarkers.length; ++i) {

@@ -48,4 +48,13 @@ class ParkingArea < ActiveRecord::Base
       "http://chart.apis.google.com/chart?chst=d_map_pin_letter&chld=|282826|000000"
     end
   end
+
+  def self.convert_address(location_string)
+    location_array = location_string.split(",")
+
+    if location_array.length == 4
+      return { address: location_array[0], city: location_array[1], state: location_array[2].split(" ")[0],
+      zip_code: location_array[2].split(" ")[1], country: location_array[3] }
+    end
+  end
 end

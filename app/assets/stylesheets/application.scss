@@ -15,16 +15,24 @@
  *= require_self
  */
 
+@import "settings";
+
 body {
   background-color: #E6E6E6;
 }
 
 .flash {
   background-color: #008CBA;
-  height: 4.5vh;
   text-align: center;
   color: white;
   padding-top: .3%;
+  height: 5vh;
+  font-size: 16px;
+
+  @include breakpoint(small down) {
+    font-size: 12px;
+    height: 4.5vh;
+  };
 }
 
 .flash-text {

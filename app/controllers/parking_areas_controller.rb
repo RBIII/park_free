@@ -97,7 +97,6 @@ class ParkingAreasController < ApplicationController
       if @parking_area.update(parking_area_params)
         format.html { redirect_to parking_areas_path, notice: 'Parking area was successfully updated' }
       else
-        binding.pry
         flash[:alert] = "Error: required field missing"
         format.html { render :edit }
       end
@@ -117,16 +116,18 @@ class ParkingAreasController < ApplicationController
   def redirect_to_new_from_map
     if params[:lat] && params[:lng]
       touched_lat_lng = params[:lat] + "," + params[:lng]
-      touch_located_parking_area = Geocoder.search(touched_lat_lng).first.address
-    end
-
-    if current_user
-      render js: "window.location.href='#{new_parking_area_path(touch_located_parking_area: touch_located_parking_area)}';"
-    else
-      render js: "window.location.href= '#{new_user_registration_path}'"
-      flash[:notice] = "You must sign up or sign in"
+      touch_located_address = Geocoder.search(touched_lat_lng).first.address
+      location_hash = ParkingArea.convert_address(touch_located_address)
+      
+      if current_user
+        render js: "window.location.href='#{new_parking_area_path(location_hash: location_hash)}';"
+      else
+        render js: "window.location.href='#{new_user_registration_path}'"
+        flash[:notice] = "You must sign up or sign in"
+      end
     end
   end
+
   private
   def get_parking_area
     @parking_area = ParkingArea.find(params[:id])

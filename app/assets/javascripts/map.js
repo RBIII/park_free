@@ -4,6 +4,8 @@ var newParkingArea = null;
 var openWindow = null;
 
 function calcRoute(destinationLat, destinationLng) {
+  //What: gives directions to the input parking area
+  //When: the directions button is clicked
   var directionsService = new google.maps.DirectionsService();
   var directionsDisplay = new google.maps.DirectionsRenderer({suppressMarkers:true});
 
@@ -33,47 +35,12 @@ function calcRoute(destinationLat, destinationLng) {
 };
 
 function displayOnMap(position) {
-//   if (navigator.geolocation) {
-//     navigator.geolocation.getCurrentPosition(function(position){
-//     var latitude = position.coords.latitude;
-//     var longitude = position.coords.longitude;
-//     var accuracy = position.coords.accuracy;
-//     var coords = new google.maps.LatLng(latitude, longitude);
-//     var mapOptions = {
-//         zoom: 15,
-//         center: coords,
-//         mapTypeControl: true,
-//         navigationControlOptions: {
-//             style: google.maps.NavigationControlStyle.SMALL
-//         },
-//         mapTypeId: google.maps.MapTypeId.ROADMAP
-//         };
-//
-//      var capa = document.getElementById("capa");
-//      capa.innerHTML = "latitud: " + latitude + " longitud: " + "   aquesta es la precisio en metres  :  " + accuracy;
-//
-//         map = new google.maps.Map(
-//             document.getElementById("mapContainer"), mapOptions
-//             );
-//         var marker = new google.maps.Marker({
-//                 position: coords,
-//                 map: map,
-//                 title: "ok"
-//         });
-//
-//
-//     },function error(msg){alert('Please enable your GPS position future.');
-//
-//   }, {maximumAge:600000, timeout:5000, enableHighAccuracy: true});
-//
-// }else {
-//     alert("Geolocation API is not supported in your browser.");
-// }
-
+  //What: adds a marker at a the users current location
+  //When: their coordinate location is obtained
   var latLng = {lat: position.coords.latitude, lng: position.coords.longitude}
   var accuracy = position.coords.accuracy
   currentLocationInfowindow = new google.maps.InfoWindow({
-    content: '<button onclick=addCurrentLocation() class="button" style="margin-bottom: 0px;">Add Parking Area</button>'
+    content: '<button onclick=addParkingArea() class="button" style="margin-bottom: 0px;">Add Parking Area</button>'
   });
 
   currentLocation = new google.maps.Marker({
@@ -87,16 +54,9 @@ function displayOnMap(position) {
   });
 }
 
-function addCurrentLocation() {
-  $.ajax({
-      type : "POST",
-      url : "/parking_areas/redirect_to_new_from_map.js",
-      dataType: 'script',
-      data : { lat: currentLocation.position.lat(), lng: currentLocation.position.lng() }
-  });
-}
-
-function addNewParkingArea() {
+function addParkingArea() {
+  //What: adds a parking area from either a long pressed location or the users current location
+  //When: the 
   $.ajax({
       type : "POST",
       url : "/parking_areas/redirect_to_new_from_map.js",
@@ -108,7 +68,7 @@ function addNewParkingArea() {
 function setPressedLocationMarker(latLng) {
   if (sameCenter) {
     newParkingAreaInfoWindow = new google.maps.InfoWindow({
-      content: '<button onclick=addNewParkingArea() class="button" style="margin-bottom: 0px;">Add Parking Area</button>'
+      content: '<button onclick=addParkingArea() class="button" style="margin-bottom: 0px;">Add Parking Area</button>'
     });
 
     if (newParkingArea == null) {
@@ -141,6 +101,8 @@ function setPressedLocationMarker(latLng) {
 }
 
 function getLocation() {
+  //What: gets the current location of the user
+  //When: the site is opened
   if (navigator.geolocation) {
     navigator.geolocation.watchPosition(displayOnMap,
        function error(msg){ alert('Please enable your GPS postion feature');
@@ -151,12 +113,16 @@ function getLocation() {
 }
 
 function closeOtherWindows() {
+  //What: closes all other windows
+  //When: another marker is clicked
   if (currentLocation != null) currentLocationInfowindow.close();
   if (newParkingArea != null) newParkingAreaInfoWindow.close();
   if (openWindow != null) openWindow.close();
 }
 
 function closeWindow() {
+  //What: closes the current open infowindow
+  //When: any area that doesn't have an 'onClick' function is clicked
   openWindow.close();
   openWindow = null;
 }

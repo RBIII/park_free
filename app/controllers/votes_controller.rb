@@ -1,4 +1,6 @@
 class VotesController < ApplicationController
+  before_action :authenticate_user!
+
   def upvote
     review = Review.find(params[:review_id])
 

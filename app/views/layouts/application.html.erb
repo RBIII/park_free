@@ -15,11 +15,11 @@
       <section class="top-bar-section row">
         <% if current_user %>
           <h3 id="new" class="small-3 medium-4 large-4 columns"><%= link_to 'New', new_parking_area_path, method: :get, class: "top-bar-text" %></h3>
-          <h2 id="park-easy" class="small-5 medium-4 large-4 columns"><%= link_to "Park Easy", parking_areas_path, method: :get, class: "top-bar-text"%></h2>
+          <h2 id="park-easy" class="small-5 medium-5 large-4 columns"><%= link_to "Park Easy", parking_areas_path, method: :get, class: "top-bar-text"%></h2>
           <h4 id="sign-out" class="small-4 medium-3 large-2 columns"><%= link_to 'Sign Out', destroy_user_session_path, method: :delete, id: "sign-out", class: "top-bar-text user_options" %></h4>
         <% else %>
           <h3 id="new" class="small-3 medium-3 large-4 columns"><%= link_to 'New', new_parking_area_path, method: :get, class: "top-bar-text" %></h3>
-          <h2 id="park-easy" class="small-5 medium-4 large-4 columns"><%= link_to "Park Easy", parking_areas_path, method: :get, class: "top-bar-text"%></h2>
+          <h2 id="park-easy" class="small-5 medium-5 large-4 columns"><%= link_to "Park Easy", parking_areas_path, method: :get, class: "top-bar-text"%></h2>
           <h4 id="sign-up" class="small-4 medium-4 large-3 columns"><%= link_to 'Sign Up', new_user_registration_path, id: "sign-up", class: "top-bar-text user_options" %>
           <%= link_to 'Sign In', new_user_session_path, id: "sign-in", class: "top-bar-text user_options" %></h4>
         <% end %>
@@ -31,30 +31,35 @@
           <div class="modal">
             <h5 id="close-overlay">x</h5>
             <div class='row'>
-              <img class='overlay-marker small-2 columns' src="http://chart.apis.google.com/chart?chst=d_map_pin_letter&chld=|009E3D|000000">
+              <%= image_tag('green-marker.png', class: 'overlay-marker small-2 columns') %>
               <h4 class='overlay-text small-11 columns'>Free</h4>
               <p class="parking-type-descriptions">Any parking that's both free and open to anyone. EX: Visitor parking,
                 free lots, etc. Does not include resident parking</p>
             </div>
             <div class='row'>
-              <img class='overlay-marker small-2 columns' src="http://chart.apis.google.com/chart?chst=d_map_pin_letter&chld=|0084C6|000000">
+              <%= image_tag('blue-marker.png', class: 'overlay-marker small-2 columns') %>
               <h4 class='overlay-text small-11 columns'>Metered</h4>
               <p class="parking-type-descriptions">Parking with pay meters. Need we say more?</p>
             </div>
             <div class='row'>
-              <img class='overlay-marker small-2 columns' src="http://chart.apis.google.com/chart?chst=d_map_pin_letter&chld=|F3C300|000000">
+              <%= image_tag('yellow-marker.png', class: 'overlay-marker small-2 columns') %>
               <h4 class='overlay-text small-11 columns'>Short Term</h4>
               <p class="parking-type-descriptions">Any parking meant for short amounts of time. EX: fifteen minute to two hour parking</p>
             </div>
             <div class='row'>
-              <img class='overlay-marker small-2 columns' src="http://chart.apis.google.com/chart?chst=d_map_pin_letter&chld=|E00024|000000">
+              <%= image_tag('red-marker.png', class: 'overlay-marker small-2 columns') %>
               <h4 class='overlay-text small-11 columns'>Parking Garage</h4>
               <p class="parking-type-descriptions">Garages/lots where you can rent a spot for a pretty penny</p>
             </div>
             <div class='row'>
-              <img class='overlay-marker small-2 columns' src="http://chart.apis.google.com/chart?chst=d_map_pin_letter&chld=|282826|000000">
+              <%= image_tag('black-marker.png', class: 'overlay-marker small-2 columns') %>
               <h4 class='overlay-text small-11 columns'>Other</h4>
               <p class="parking-type-descriptions">Anything else</p>
+            </div>
+            <div class='row'>
+              <%= image_tag('grey-marker.png', class: 'overlay-marker small-2 columns') %>
+              <h4 class='overlay-text small-11 columns'>Unsaved</h4>
+              <p class="parking-type-descriptions">A potential new parking area placed after a long click from a user (like you)!</p>
             </div>
           </div>
         </div>

@@ -1,7 +1,25 @@
+@import "settings";
+
+.form {
+  background-image: url('boston-parking.jpg');
+  background-size: cover;
+}
+
 .form-contents {
   padding-left: 5%;
-  margin-left: 14%;
-  width: 60vw;
+  padding-right: 5%;
+  margin: 0 auto;
+  background: #EEFCFC;
+  opacity: .98;
+  height: 100%;
+
+  @include breakpoint(small down) {
+    width: 90vw;
+  };
+
+  @include breakpoint(medium) {
+    width: 60vw;
+  };
 }
 
 .text-area {

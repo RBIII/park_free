@@ -7,32 +7,34 @@
     <%= javascript_include_tag "application" %>
   </head>
   <body>
-    <div class="form-contents">
-      <%= form_for([@parking_area, @review]) do |f| %>
-        <% if @review.errors.any? %>
-          <div id="error_explanation">
-            <h2><%= pluralize(@review.errors.count, "error") %> prohibited this review from being saved:</h2>
+    <div class="form">
+      <div class="form-contents">
+        <%= form_for([@parking_area, @review]) do |f| %>
+          <% if @review.errors.any? %>
+            <div id="error_explanation">
+              <h2><%= pluralize(@review.errors.count, "error") %> prohibited this review from being saved:</h2>
 
-            <ul>
-            <% @review.errors.full_messages.each do |message| %>
-              <li><%= message %></li>
-            <% end %>
-            </ul>
+              <ul>
+              <% @review.errors.full_messages.each do |message| %>
+                <li><%= message %></li>
+              <% end %>
+              </ul>
+            </div>
+          <% end %>
+
+          <div class="field">
+            <%= f.label :quality %><br>
+            <%= rating_for @review, 'quality' %>
+          </div>
+          <div class="field">
+            <%= f.label "How's the parking?" %><br>
+            <%= f.text_area :content, class: "text-area" %>
+          </div>
+          <div class="actions">
+            <%= f.submit class: "round button"%>
           </div>
         <% end %>
-
-        <div class="field">
-          <%= f.label :quality %><br>
-          <%= rating_for @review, 'quality' %>
-        </div>
-        <div class="field">
-          <%= f.label "How's the parking?" %><br>
-          <%= f.text_area :content, class: "text-area" %>
-        </div>
-        <div class="actions">
-          <%= f.submit class: "round button"%>
-        </div>
-      <% end %>
+      </div>
     </div>
   </body>
 </html>
