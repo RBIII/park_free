@@ -55,7 +55,7 @@ class ParkingAreasController < ApplicationController
 
 
   def new
-    @touched_area_array = params[:touch_located_parking_area].split(",").map! {|a| a.strip} if params[:touch_located_parking_area]
+    @location_hash = params[:location_hash]
     @parking_area = ParkingArea.new
     @parking_types = ["Free", "Metered", "Short Term", "Parking Garage", "Other"]
 
@@ -82,7 +82,6 @@ class ParkingAreasController < ApplicationController
       if @parking_area.save
         format.html { redirect_to parking_areas_path, notice: 'Parking area was successfully created' }
       else
-        binding.pry
         flash[:alert] = "Error: required field missing"
         format.html { render :new }
       end
@@ -118,7 +117,7 @@ class ParkingAreasController < ApplicationController
       touched_lat_lng = params[:lat] + "," + params[:lng]
       touch_located_address = Geocoder.search(touched_lat_lng).first.address
       location_hash = ParkingArea.convert_address(touch_located_address)
-      
+
       if current_user
         render js: "window.location.href='#{new_parking_area_path(location_hash: location_hash)}';"
       else

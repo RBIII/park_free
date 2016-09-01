@@ -6,7 +6,6 @@ class ReviewsController < ApplicationController
     @review = Review.new()
     @parking_area = ParkingArea.find(params[:parking_area_id])
     @ratings = (1..10).to_a
-    binding.pry
   end
 
   def create

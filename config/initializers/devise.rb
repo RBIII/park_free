@@ -14,7 +14,7 @@ Devise.setup do |config|
   else
     #TODO: change this
     config.omniauth :facebook, "1754377511517240", "cba4f709928b7bd932c3856aaa90fa96",
-    callback_url: "https://583f3667.ngrok.io/users/auth/facebook/callback"
+    callback_url: "https://park-easy.herokuapp.com/users/auth/facebook/callback"
   end
 
   # The secret key used by Devise. Devise uses this key to generate
