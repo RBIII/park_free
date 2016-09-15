@@ -3,6 +3,10 @@ var currentLocation = null;
 var newParkingArea = null;
 var openWindow = null;
 
+
+function initialize(){
+}
+
 function calcRoute(destinationLat, destinationLng) {
   //What: gives directions to the input parking area
   //When: the directions button is clicked
@@ -56,7 +60,7 @@ function displayOnMap(position) {
 
 function addParkingArea() {
   //What: adds a parking area from either a long pressed location or the users current location
-  //When: the 
+  //When: the
   $.ajax({
       type : "POST",
       url : "/parking_areas/redirect_to_new_from_map.js",

@@ -6,7 +6,7 @@ class Vote < ActiveRecord::Base
   validates :value, inclusion: {in: [-1, 0, 1]}
 
   def self.upvote(user, review)
-    vote = Vote.find_or_create_by(user_id: user.id, voteable_id: review.id, voteable_type: "review")
+    vote = Vote.find_or_create_by(user_id: user.id, voteable_id: review.id, voteable_type: "Review")
 
     if vote.value == 1
       vote.value = 0
@@ -18,7 +18,7 @@ class Vote < ActiveRecord::Base
   end
 
   def self.downvote(user, review)
-    vote = Vote.find_or_create_by(user_id: user.id, voteable_id: review.id, voteable_type: "review")
+    vote = Vote.find_or_create_by(user_id: user.id, voteable_id: review.id, voteable_type: "Review")
 
     if vote.value == -1
       vote.value = 0

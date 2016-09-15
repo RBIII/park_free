@@ -3,7 +3,7 @@
 .infowindow-content {
   height: 300px;
   overflow: auto;
-
+  width: 225px;
 
   @include breakpoint(medium up) {
     min-width: 350px;
@@ -25,6 +25,18 @@
 .review-text {
   padding-top: 5%;
   padding-bottom: 5%;
+}
+
+.voting {
+  text-align: right;
+}
+
+.upvoted {
+  color: orange;
+}
+
+.downvoted {
+  color: orange;
 }
 
 // .star {

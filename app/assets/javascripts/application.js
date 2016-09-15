@@ -12,9 +12,7 @@
 //
 //= require jquery
 //= require jquery.turbolinks
-//= require jquery.raty
 //= require jquery_ujs
-//= require ratyrate
 //= require turbolinks
 //= require foundation
 //= require underscore
@@ -52,27 +50,3 @@ function categoryGuide() {
       $('a.overlay-link').click();
   }, 10);
 };
-
-function selectParkingInfoTab(id) {
-  var reviewSelector = "#reviews-" + id.toString()
-  var reviewTabSelector = "#reviews-tab-" + id.toString()
-  var parkingInfoSelector = "#parking-info-" + id.toString()
-  var parkingTabSelector = "#info-tab-" + id.toString()
-
-  $(reviewSelector).removeClass("is-active");
-  $(reviewTabSelector).attr("aria-selected", "false")
-  $(parkingInfoSelector).addClass("is-active");
-  $(parkingTabSelector).attr("aria-selected", "true");
-}
-
-function selectReviewsTab(id) {
-  var reviewSelector = "#reviews-" + id.toString()
-  var reviewTabSelector = "#reviews-tab-" + id.toString()
-  var parkingInfoSelector = "#parking-info-" + id.toString()
-  var parkingTabSelector = "#info-tab-" + id.toString()
-
-  $(parkingInfoSelector).removeClass("is-active");
-  $(parkingTabSelector).attr("aria-selected", "false");
-  $(reviewSelector).addClass("is-active");
-  $(reviewTabSelector).attr("aria-selected", "true")
-}

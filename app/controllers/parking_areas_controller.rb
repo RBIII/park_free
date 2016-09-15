@@ -19,7 +19,7 @@ class ParkingAreasController < ApplicationController
       })
 
       verification = Verification.find_by(user_id: current_user.id, parking_area_id: parking_area.id) unless current_user.nil?
-      reviews = parking_area.reviews.includes(:user)
+      reviews = parking_area.reviews.includes(:user).sort_by {|r| r.sum_of_votes }.reverse!
       marker.infowindow(render_to_string(partial: "/infowindows/index.html.erb", locals: {user: current_user, parking_area: parking_area, verification: verification, reviews: reviews}))
     end
 

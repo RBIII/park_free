@@ -27,6 +27,7 @@ a {
 
 #park-easy {
   padding-left: 4%;
+  text-align: center;
 }
 
 .overlay-marker {
@@ -38,4 +39,13 @@ a {
   margin-left: 65vw;
   position: absolute;
   bottom: 0;
+}
+
+#dropdown-menu {
+  max-width: 140px;
+  background-color: #019FE9;
+}
+
+#sign-up, #sign-out {
+  border-top: 1px solid white;
 }

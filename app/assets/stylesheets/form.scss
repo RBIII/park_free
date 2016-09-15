@@ -12,9 +12,10 @@
   background: #EEFCFC;
   opacity: .98;
   height: 100%;
+  min-height: 600px;
 
   @include breakpoint(small down) {
-    width: 90vw;
+    width: 80vw;
   };
 
   @include breakpoint(medium) {

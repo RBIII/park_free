@@ -26,7 +26,7 @@
   transition: opacity 0.3s ease-in-out;
 
   @include breakpoint(large) {
-    width: 32vw;
+    width: 35vw;
     max-width: 30%;
   }
 }
@@ -57,6 +57,10 @@
 
 .overlay-marker {
   margin-right: 2%;
+}
+
+.overlay-text {
+  width: 90%;
 }
 
 #close-overlay {

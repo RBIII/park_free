@@ -1,7 +1,6 @@
 Rails.application.routes.draw do
   root 'parking_areas#index'
 
-  post '/rate' => 'rater#create', as: 'rate'
   devise_for :users, controllers: { omniauth_callbacks: "omniauth_callbacks" }
 
   # resources :users, only: [:show, :edit, :update]

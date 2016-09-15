@@ -15,7 +15,7 @@
         </ul>
       </div>
 
-      <div class="tabs-content" data-tabs-content="marker-tabs"  onclick="closeWindow()">
+      <div class="tabs-content" data-tabs-content="marker-tabs">
         <div class="tabs-panel is-active" id="parking-info-<%= parking_area.id %>">
           <div class="row">
             <h5 style="text-align: center;" class="small-12 columns"><%= parking_area.title %></h5>
@@ -58,21 +58,36 @@
         <div class="tabs-panel" id="reviews-<%= parking_area.id %>">
           <% unless reviews.empty? %>
             <% reviews.each do |review| %>
-              <div class="review-area">
-                <%= rating_for review %>
-                <div class="voting">
-                  <% if current_user && current_user.upvoted?(review) %>
-                    <%= link_to "⬆", upvote_review_votes_path(review), method: :post, class: "upvoted" %>
-                  <% else %>
-                    <%= link_to "⬆", upvote_review_votes_path(review), method: :post %>
+            <div class="review-area">
+              <div class="row">
+                <div class="rating small-6 columns">
+                  <% i = 0 %>
+                  <% 5.times do %>
+                    <% if review.quality && i < review.quality %>
+                      <%= image_tag("star-on.png") %>
+                    <% else %>
+                      <%= image_tag("star-off.png") %>
+                    <% end %>
+                  <% i += 1 %>
                   <% end %>
-                  <%= review.sum_of_votes %>
-                  <% if current_user && current_user.downvoted?(review) %>
-                    <%= link_to "⬇", downvote_review_votes_path(review), method: :post, :class => "downvoted" %>
-                  <% else %>
-                    <%= link_to "⬇", downvote_review_votes_path(review), method: :post %>
-                  <% end %>
+                </div>
+
+                <div class="voting small-6 columns">
+                  <div class="row">
+                    <% if current_user && current_user.upvoted?(review) %>
+                      <%= link_to "⬆", upvote_review_votes_path(review), id: "#{review.id}-upvoted", method: :post, class: "small-2 columns upvoted", onclick: "upvoted(event, #{review.id})" %>
+                    <% else %>
+                      <%= link_to "⬆", upvote_review_votes_path(review), id: "#{review.id}-upvoting", method: :post, class: "small-2 columns", onclick: "upvoting(event, #{review.id})" %>
+                    <% end %>
+                    <%= content_tag :h5, review.sum_of_votes, id: "#{review.id}-sum", class: "small-2 columns" %>
+                    <% if current_user && current_user.downvoted?(review) %>
+                      <%= link_to "⬇", downvote_review_votes_path(review), id: "#{review.id}-downvoting", method: :post, class: "small-2 columns downvoted", onclick: "downvoting(event, #{review.id})" %>
+                    <% else %>
+                      <%= link_to "⬇", downvote_review_votes_path(review), id: "#{review.id}-downvoted", method: :post, class: "small-2 columns", onclick: "downvoted(event, #{review.id})" %>
+                    <% end %>
                   </div>
+                </div>
+              </div>
                 <div class="row">
                   <p class="review-text small-12 columns"><%= review.content %></p>
                 </div>

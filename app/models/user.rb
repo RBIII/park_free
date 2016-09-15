@@ -1,7 +1,4 @@
 class User < ActiveRecord::Base
-  # Include default devise modules. Others available are:
-  # :confirmable, :lockable, :timeoutable and :omniauthable
-  ratyrate_rater
   has_many :parking_areas
   has_many :comments
   has_many :reviews
@@ -17,7 +14,7 @@ class User < ActiveRecord::Base
 
   def self.from_omniauth(access_token)
     data = access_token.info
-    user = User.where(:email => data["email"]).first
+    user = User.where(email: data["email"]).first
 
     unless user
       user = User.create(name: data["name"],
@@ -32,14 +29,14 @@ class User < ActiveRecord::Base
   end
 
   def upvoted?(review)
-    vote = Vote.find_by(user_id: self, voteable_id: review.id, voteable_type: "review")
+    vote = Vote.find_by(user_id: self, voteable_id: review.id, voteable_type: "Review")
 
-    vote != nil && vote.value == 1
+    return vote != nil && vote.value == 1
   end
 
   def downvoted?(review)
-    vote = Vote.find_by(user_id: self, voteable_id: review.id, voteable_type: "review")
+    vote = Vote.find_by(user_id: self, voteable_id: review.id, voteable_type: "Review")
 
-    vote != nil && vote.value == -1
+    return vote != nil && vote.value == -1
   end
 end
