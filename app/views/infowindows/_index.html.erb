@@ -1,16 +1,14 @@
-<!DOCTYPE html>
+  <!DOCTYPE html>
 <html>
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <%= stylesheet_link_tag 'application', media: 'all' %>
-    <%= javascript_include_tag "application" %>
   </head>
   <body>
     <div class="infowindow-content">
       <div class="row">
         <ul class="tabs" data-tabs id="marker-tabs">
-          <li class="small-5 columns tabs-title" style="text-align: center; padding: 0;"><a onclick="selectParkingInfoTab(<%= parking_area.id %>)" id="info-tab-<%= parking_area.id %>" aria-selected="true">Info</a></li>
+          <li class="small-6 columns tabs-title" style="text-align: center; padding: 0;"><a onclick="selectParkingInfoTab(<%= parking_area.id %>)" id="info-tab-<%= parking_area.id %>" aria-selected="true">Info</a></li>
           <li class="small-6 columns tabs-title" style="text-align: center; padding: 0;"><a onclick="selectReviewsTab(<%= parking_area.id %>)" id="reviews-tab-<%= parking_area.id %>" aria-selected="false">Reviews</a></li>
         </ul>
       </div>
@@ -60,7 +58,7 @@
             <% reviews.each do |review| %>
             <div class="review-area">
               <div class="row">
-                <div class="rating small-6 columns">
+                <div class="rating small-8 columns">
                   <% i = 0 %>
                   <% 5.times do %>
                     <% if review.quality && i < review.quality %>
@@ -72,20 +70,8 @@
                   <% end %>
                 </div>
 
-                <div class="voting small-6 columns">
-                  <div class="row">
-                    <% if current_user && current_user.upvoted?(review) %>
-                      <%= link_to "⬆", upvote_review_votes_path(review), id: "#{review.id}-upvoted", method: :post, class: "small-2 columns upvoted", onclick: "upvoted(event, #{review.id})" %>
-                    <% else %>
-                      <%= link_to "⬆", upvote_review_votes_path(review), id: "#{review.id}-upvoting", method: :post, class: "small-2 columns", onclick: "upvoting(event, #{review.id})" %>
-                    <% end %>
-                    <%= content_tag :h5, review.sum_of_votes, id: "#{review.id}-sum", class: "small-2 columns" %>
-                    <% if current_user && current_user.downvoted?(review) %>
-                      <%= link_to "⬇", downvote_review_votes_path(review), id: "#{review.id}-downvoting", method: :post, class: "small-2 columns downvoted", onclick: "downvoting(event, #{review.id})" %>
-                    <% else %>
-                      <%= link_to "⬇", downvote_review_votes_path(review), id: "#{review.id}-downvoted", method: :post, class: "small-2 columns", onclick: "downvoted(event, #{review.id})" %>
-                    <% end %>
-                  </div>
+                <div class="voting small-4 columns">
+                  <%= render "votes/voting", locals: {review: review} %>
                 </div>
               </div>
                 <div class="row">

@@ -3,18 +3,21 @@ class ParkingArea < ActiveRecord::Base
   has_many :reviews, dependent: :destroy
   has_many :comments, through: :reviews
   has_many :verifications
-  geocoded_by :full_address
-  after_validation :geocode
-  before_update :format_params
 
   validates :user_id, presence: true
-  validates :address, presence: true
-  validates :city, presence: true
-  validates :state, presence: true
-  validates :country, presence: true
-  validates :zip_code, presence: true
-  validates :title, presence: true
-  validates :parking_type, presence: true
+  validates :title, :parking_type, presence: true
+  validate :address_or_coordinates
+
+  after_validation :reverse_geocode
+  before_update :format_parking_type
+  before_save :format_address
+  geocoded_by :full_address
+  reverse_geocoded_by :latitude, :longitude
+
+  def address_or_coordinates
+    !(address.nil? && city.nil? && state.nil? && country.nil? && zip_code.nil?) ||
+    !(latitude.nil? && longitude.nil?)
+  end
 
   def full_address
     address + " " + city + " " + state + " " + country + " " + zip_code
@@ -26,8 +29,19 @@ class ParkingArea < ActiveRecord::Base
     user.admin || verification_sum >= 3 || verifications.any? { |v| v.user.admin }
   end
 
-  def format_params
+  def format_parking_type
     self.parking_type.downcase!
+  end
+
+  def format_address
+    address_array = self.address.split(",")
+    if address_array.length == 4
+      self.address = address_array[0].gsub(" ", "")
+      self.city = address_array[1].gsub(" ", "")
+      self.state = address_array[2].gsub(" ", "").split(" ")[0]
+      self.zip_code = address_array[2].gsub(" ", "").split(" ")[1]
+      self.country = address_array[3].gsub(" ", "")
+    end
   end
 
   def marker_color

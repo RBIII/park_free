@@ -3,10 +3,6 @@ var currentLocation = null;
 var newParkingArea = null;
 var openWindow = null;
 
-
-function initialize(){
-}
-
 function calcRoute(destinationLat, destinationLng) {
   //What: gives directions to the input parking area
   //When: the directions button is clicked

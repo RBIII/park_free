@@ -2,10 +2,6 @@
 // They will automatically be included in application.css.
 // You can use Sass (SCSS) here: http://sass-lang.com/
 a {
-  // &:visited {
-  //   color: black;
-  // }
-
   &:hover {
     color: #B3D1FF;
   }
@@ -44,8 +40,10 @@ a {
 #dropdown-menu {
   max-width: 140px;
   background-color: #019FE9;
+  padding: 0px;
 }
 
-#sign-up, #sign-out {
-  border-top: 1px solid white;
+#new, #sign-up, #sign-in, #sign-out {
+  width: 100%;
+  margin-bottom: 0px;
 }

@@ -2,12 +2,14 @@ function initIndexMap() {
   var jsonMarkers = $("#index-map").data("jsonMarkers");
   var center = new google.maps.LatLng(42.339169, -71.088474);
   var bounds = new google.maps.LatLngBounds();
+  var parkingAreas = [];
 
   map = new google.maps.Map(document.getElementById('index-map'), {
     center: center,
-    zoom: 12,
-    width: 500
+    zoom: 4
   });
+
+  google.maps.event.addDomListener(window, 'load', getLocation());
 
   for (var i = 0; i <  jsonMarkers.length; ++i) {
     (function() {
@@ -19,8 +21,10 @@ function initIndexMap() {
       var marker = new google.maps.Marker({
         position: latLng,
         map: map,
-        icon: jsonMarkers[i].picture
+        icon: jsonMarkers[i].picture,
+        label: jsonMarkers[i].title
       });
+
 
       marker.addListener('click', function() {
         closeOtherWindows();
@@ -28,9 +32,14 @@ function initIndexMap() {
         infowindow.open(map, marker);
       });
 
+      parkingAreas.push(marker);
+
       bounds.extend(marker.getPosition());
     })();
   }
+
+  var markerCluster = new MarkerClusterer(map, parkingAreas,
+          {imagePath: 'https://developers.google.com/maps/documentation/javascript/examples/markerclusterer/m'});
 
   // map.fitBounds(bounds)
 
@@ -49,6 +58,4 @@ function initIndexMap() {
       clearTimeout(counter)
     });
   });
-
-  google.maps.event.addDomListener(window, 'load', getLocation);
 }

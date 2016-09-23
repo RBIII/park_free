@@ -1,19 +1,15 @@
 # Use this hook to configure devise mailer, warden hooks and so forth.
 # Many of these configuration options can be set straight in your model.
 Devise.setup do |config|
-  if Rails.env.development?
-    config.omniauth :google_oauth2, "870456474276-buep3a6ds2192sfv5s6sbu670cdv8rj4.apps.googleusercontent.com", "dAx4J7yBahNWCzBVhkssWYw2", { }
-  else
-    #TODO: change this
-    config.omniauth :google_oauth2, "870456474276-buep3a6ds2192sfv5s6sbu670cdv8rj4.apps.googleusercontent.com", "dAx4J7yBahNWCzBVhkssWYw2", { }
-  end
+  config.omniauth :google_oauth2, ENV["google_oauth_key"], ENV["google_oauth_secret"], { }
+  config.omniauth :twitter, ENV["twitter_oauth_key"], ENV["twitter_oauth_secret"]
 
   if Rails.env.development?
-    config.omniauth :facebook, "1754377511517240", "cba4f709928b7bd932c3856aaa90fa96",
+    config.omniauth :facebook, ENV["facebook_oauth_key"], ENV["facebook_oauth_secret"],
     callback_url: "https://583f3667.ngrok.io/users/auth/facebook/callback"
   else
     #TODO: change this
-    config.omniauth :facebook, "1754377511517240", "cba4f709928b7bd932c3856aaa90fa96",
+    config.omniauth :facebook, ENV["facebook_oauth_key"], ENV["facebook_oauth_secret"],
     callback_url: "https://park-easy.herokuapp.com/users/auth/facebook/callback"
   end
 

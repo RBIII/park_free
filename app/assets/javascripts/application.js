@@ -37,16 +37,31 @@ $(document).on('ready page:load', function () {
   });
 });
 
+$(document).ajaxError(function (e, xhr, settings) {
+  if (xhr.status == 401) {
+    window.location.replace('/users/sign_in');
+  }
+});
+
 function toggleOverlayButtonColor(overlay) {
   if(overlay.hasClass('shown')) {
     $('#marker_guide_link').addClass('secondary');
   } else {
     $('#marker_guide_link').removeClass('secondary');
   }
-}
+};
 
 function categoryGuide() {
   setTimeout(function() {
       $('a.overlay-link').click();
   }, 10);
+};
+
+function closeMenuIfOpen(event) {
+  var dropdownMenu = $('#dropdown-menu')
+
+  if(dropdownMenu.hasClass("is-open")) {
+    dropdownMenu.removeClass("is-open");
+    event.stopPropagation();
+  }
 };

@@ -1,4 +1,10 @@
+@import "settings";
+
 #index-map {
-  height: 85vh;
+  height: 80vh;
   width: 100%;
+
+  @include breakpoint(medium down) {
+    height: 72vh;
+  }
 }

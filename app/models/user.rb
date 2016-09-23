@@ -6,7 +6,7 @@ class User < ActiveRecord::Base
   has_many :votes, dependent: :destroy
   devise :database_authenticatable, :registerable,
          :recoverable, :rememberable, :trackable, :validatable,
-         :omniauthable, omniauth_providers: [:google_oauth2, :facebook]
+         :omniauthable, omniauth_providers: [:google_oauth2, :facebook, :twitter]
 
   def get_score
     return self.comments * 2 + self.parking_areas * 5 + self.votes * 0.5

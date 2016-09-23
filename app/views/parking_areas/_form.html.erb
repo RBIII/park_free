@@ -3,8 +3,6 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <%= stylesheet_link_tag 'application', media: 'all' %>
-    <%= javascript_include_tag "application" %>
   </head>
   <body>
     <div class="form">
@@ -23,23 +21,32 @@
           <% end %> -->
           <div class="field">
             <%= f.label :address %><br>
-            <%= f.text_field :address, value: @location_hash ? @location_hash[:address] : @parking_area.address %>
+            <%= f.text_field :address, value: @parking_area.address %>
           </div>
           <div class="field">
             <%= f.label :city %><br>
-            <%= f.text_field :city, value: @location_hash ? @location_hash[:city] : @parking_area.city %>
+            <%= f.text_field :city, value: @parking_area.city %>
           </div>
           <div class="field">
             <%= f.label :state %><br>
-            <%= f.text_field :state, value: @location_hash ? @location_hash[:state] : @parking_area.state %>
+            <%= f.text_field :state, value: @parking_area.state %>
           </div>
           <div class="field">
             <%= f.label :country %><br>
-            <%= f.text_field :country, value: @location_hash ? @location_hash[:country] : @parking_area.country %>
+            <%= f.text_field :country, value: @parking_area.country %>
           </div>
           <div class="field">
             <%= f.label "zip code" %><br>
-            <%= f.text_field :zip_code, value: @location_hash ? @location_hash[:zip_code] : @parking_area.zip_code %>
+            <%= f.text_field :zip_code, value: @parking_area.zip_code %>
+          </div>
+          <h4>OR</h4>
+          <div class="field">
+            <%= f.label :latitude %><br>
+            <%= f.text_field :latitude, value: @latitude %>
+          </div>
+          <div class="field">
+            <%= f.label :longitude %><br>
+            <%= f.text_field :longitude, value: @longitude %>
           </div>
           <div class="field">
             <%= f.label :title %><br>

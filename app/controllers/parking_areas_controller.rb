@@ -55,7 +55,8 @@ class ParkingAreasController < ApplicationController
 
 
   def new
-    @location_hash = params[:location_hash]
+    @latitude = params[:latitude]
+    @longitude = params[:longitude]
     @parking_area = ParkingArea.new
     @parking_types = ["Free", "Metered", "Short Term", "Parking Garage", "Other"]
 
@@ -114,12 +115,8 @@ class ParkingAreasController < ApplicationController
 
   def redirect_to_new_from_map
     if params[:lat] && params[:lng]
-      touched_lat_lng = params[:lat] + "," + params[:lng]
-      touch_located_address = Geocoder.search(touched_lat_lng).first.address
-      location_hash = ParkingArea.convert_address(touch_located_address)
-
       if current_user
-        render js: "window.location.href='#{new_parking_area_path(location_hash: location_hash)}';"
+        render js: "window.location.href='#{new_parking_area_path(latitude: params[:lat], longitude: params[:lng])}';"
       else
         render js: "window.location.href='#{new_user_registration_path}'"
         flash[:notice] = "You must sign up or sign in"
@@ -133,6 +130,6 @@ class ParkingAreasController < ApplicationController
   end
 
   def parking_area_params
-    params.require(:parking_area).permit(:address, :city, :state, :country, :zip_code, :title, :description, :parking_type)
+    params.require(:parking_area).permit(:address, :city, :state, :country, :zip_code, :title, :description, :parking_type, :latitude, :longitude)
   end
 end
