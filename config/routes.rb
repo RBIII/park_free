@@ -4,7 +4,6 @@ Rails.application.routes.draw do
   devise_for :users, controllers: { omniauth_callbacks: "omniauth_callbacks" }
 
   # resources :users, only: [:show, :edit, :update]
-
   resources :parking_areas do
     resources :verifications, only: [:create, :update]
     resources :reviews, except: [:show, :index]

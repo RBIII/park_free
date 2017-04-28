@@ -38,10 +38,10 @@ function initIndexMap() {
     })();
   }
 
-  var markerCluster = new MarkerClusterer(map, parkingAreas,
-          {imagePath: 'https://developers.google.com/maps/documentation/javascript/examples/markerclusterer/m'});
-
-  // map.fitBounds(bounds)
+  new MarkerClusterer(map, parkingAreas, {
+    imagePath: 'https://developers.google.com/maps/documentation/javascript/examples/markerclusterer/m',
+    maxZoom: 10
+  });
 
   google.maps.event.addListener(map, 'mousedown', function(event){
     sameCenter = true;

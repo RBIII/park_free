@@ -40,7 +40,7 @@ function displayOnMap(position) {
   var latLng = {lat: position.coords.latitude, lng: position.coords.longitude}
   var accuracy = position.coords.accuracy
   currentLocationInfowindow = new google.maps.InfoWindow({
-    content: '<button onclick=addParkingArea() class="button" style="margin-bottom: 0px;">Add Parking Area</button>'
+    content: '<button onclick=addCurrentLocation() class="button" style="margin-bottom: 0px;">Add Parking Area</button>'
   });
 
   currentLocation = new google.maps.Marker({
@@ -62,6 +62,15 @@ function addParkingArea() {
       url : "/parking_areas/redirect_to_new_from_map.js",
       dataType: 'script',
       data : { lat: newParkingArea.position.lat(), lng: newParkingArea.position.lng() }
+  });
+}
+
+function addCurrentLocation() {
+  $.ajax({
+      type : "POST",
+      url : "/parking_areas/redirect_to_new_from_map.js",
+      dataType: 'script',
+      data : { lat: currentLocation.position.lat(), lng: currentLocation.position.lng() }
   });
 }
 
@@ -104,6 +113,7 @@ function getLocation() {
   //What: gets the current location of the user
   //When: the site is opened
   if (navigator.geolocation) {
+
     navigator.geolocation.watchPosition(displayOnMap,
        function error(msg){ alert('Please enable your GPS postion feature');
     }, {maximumAge:Infinity, timeout:60000, enableHighAccuracy: true});

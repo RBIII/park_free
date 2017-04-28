@@ -6,7 +6,7 @@ Devise.setup do |config|
 
   if Rails.env.development?
     config.omniauth :facebook, ENV["facebook_oauth_key"], ENV["facebook_oauth_secret"],
-    callback_url: "https://583f3667.ngrok.io/users/auth/facebook/callback"
+    callback_url: "https://f141c84e.ngrok.io/users/auth/facebook/callback"
   else
     #TODO: change this
     config.omniauth :facebook, ENV["facebook_oauth_key"], ENV["facebook_oauth_secret"],

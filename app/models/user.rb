@@ -24,7 +24,6 @@ class User < ActiveRecord::Base
         provider: access_token["provider"]
       )
     end
-
     user
   end
 
