@@ -113,7 +113,6 @@ function getLocation() {
   //What: gets the current location of the user
   //When: the site is opened
   if (navigator.geolocation) {
-
     navigator.geolocation.watchPosition(displayOnMap,
        function error(msg){ alert('Please enable your GPS postion feature');
     }, {maximumAge:Infinity, timeout:60000, enableHighAccuracy: true});
