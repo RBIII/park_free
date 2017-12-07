@@ -1,10 +1,9 @@
 class ParkingAreasController < ApplicationController
   before_action :authenticate_user!, except: [:index, :show, :redirect_to_new_from_map]
   before_action :get_parking_area, only: [:show, :edit, :update, :destroy]
-
+  before_action :get_verification, only: [:show, :index]
 
   def index
-    verification = nil
     @key = ENV["google_maps_key"] || Rails.application.secrets.google_maps_key
     @parking_areas = ParkingArea.all
 
@@ -18,9 +17,8 @@ class ParkingAreasController < ApplicationController
        width: 32
       })
 
-      verification = Verification.find_by(user_id: current_user.id, parking_area_id: parking_area.id) unless current_user.nil?
       reviews = parking_area.reviews.includes(:user).sort_by {|r| r.sum_of_votes }.reverse!
-      marker.infowindow(render_to_string(partial: "/infowindows/index.html.erb", locals: {user: current_user, parking_area: parking_area, verification: verification, reviews: reviews}))
+      marker.infowindow(render_to_string(partial: "/infowindows/index.html.erb", locals: {user: current_user, parking_area: parking_area, verification: @verification, reviews: reviews}))
     end
 
     respond_to do |format|
@@ -31,7 +29,6 @@ class ParkingAreasController < ApplicationController
 
 
   def show
-    verification = nil
     @key = ENV["google_maps_key"] || Rails.application.secrets.google_maps_key
     @parking_area = ParkingArea.find(params[:id])
 
@@ -43,8 +40,8 @@ class ParkingAreasController < ApplicationController
        :width   => 32,
        :height  => 32
       })
-      verification = Verification.find_by(user_id: current_user.id, parking_area_id: parking_area.id) unless current_user.nil?
-      marker.infowindow render_to_string(partial: "/infowindows/show.html.erb", locals: {user: current_user, parking_area: parking_area, verification: verification})
+
+      marker.infowindow render_to_string(partial: "/infowindows/show.html.erb", locals: {user: current_user, parking_area: parking_area, verification: @verification})
     end
 
     respond_to do |format|
@@ -131,5 +128,9 @@ class ParkingAreasController < ApplicationController
 
   def parking_area_params
     params.require(:parking_area).permit(:address, :city, :state, :country, :zip_code, :title, :description, :parking_type, :latitude, :longitude)
+  end
+
+  def get_verification
+    @verification = current_user ? Verification.find_by(user_id: current_user.id, parking_area_id: parking_area.id) : nil
   end
 end
