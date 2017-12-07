@@ -86,7 +86,7 @@ function setPressedLocationMarker(latLng) {
         map: map,
         draggable: true,
         animation: google.maps.Animation.DROP,
-        icon: "http://chart.apis.google.com/chart?chst=d_map_pin_letter&chld=|C3BDBD|000000"
+        icon: "https://chart.apis.google.com/chart?chst=d_map_pin_letter&chld=|C3BDBD|000000"
       });
     } else {
       newParkingArea.setPosition(latLng);
