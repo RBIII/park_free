@@ -1,55 +1,15 @@
 class ParkingAreasController < ApplicationController
   before_action :authenticate_user!, except: [:index, :show, :redirect_to_new_from_map]
   before_action :get_parking_area, only: [:show, :edit, :update, :destroy]
-
+  before_action :get_key, only: [:index, :show]
 
   def index
-    @key = ENV["google_maps_key"] || Rails.application.secrets.google_maps_key
-    @parking_areas = ParkingArea.all
-
-    @json_parking_areas = Gmaps4rails.build_markers(@parking_areas) do |parking_area, marker|
-      marker.lat(parking_area.latitude)
-      marker.lng(parking_area.longitude)
-
-      marker.picture({
-       url: parking_area.marker_color,
-       height: 32,
-       width: 32
-      })
-
-      verification = current_user ? Verification.find_by(user_id: current_user.id, parking_area_id: parking_area.id) : nil
-      reviews = parking_area.reviews.includes(:user).sort_by {|r| r.sum_of_votes }.reverse!
-      marker.infowindow(render_to_string(partial: "/infowindows/index.html.erb", locals: {user: current_user, parking_area: parking_area, verification: verification, reviews: reviews}))
-    end
-
-    respond_to do |format|
-      format.html
-      format.json { render json: @json_parking_areas }
-    end
+    @json_parking_areas = build_markers(ParkingArea.all)
   end
 
 
   def show
-    @key = ENV["google_maps_key"] || Rails.application.secrets.google_maps_key
-    @parking_area = ParkingArea.find(params[:id])
-
-    @json_parking_area = Gmaps4rails.build_markers(@parking_area) do |parking_area, marker|
-      marker.lat parking_area.latitude
-      marker.lng parking_area.longitude
-      marker.picture({
-       :url => parking_area.marker_color,
-       :width   => 32,
-       :height  => 32
-      })
-      
-      verification = current_user ? Verification.find_by(user_id: current_user.id, parking_area_id: parking_area.id) : nil
-      marker.infowindow render_to_string(partial: "/infowindows/show.html.erb", locals: {user: current_user, parking_area: parking_area, verification: verification})
-    end
-
-    respond_to do |format|
-      format.html
-      format.json { render json: @json_parking_area }
-    end
+    @json_parking_area = build_markers(ParkingArea.find(params[:id]))
   end
 
 
@@ -57,7 +17,7 @@ class ParkingAreasController < ApplicationController
     @latitude = params[:latitude]
     @longitude = params[:longitude]
     @parking_area = ParkingArea.new
-    @parking_types = ["Free", "Metered", "Short Term", "Parking Garage", "Other"]
+    @parking_types = ParkingArea::PARKING_TYPES
 
     respond_to do |format|
       format.html
@@ -68,15 +28,14 @@ class ParkingAreasController < ApplicationController
 
   def edit
     @parking_area = ParkingArea.find(params[:id])
-    @parking_types = ["Free", "Metered", "Short Term", "Parking Garage", "Other"]
+    @parking_types = ParkingArea::PARKING_TYPES
   end
 
 
   def create
     @parking_area = ParkingArea.new(parking_area_params)
     @parking_area.user = current_user
-    @parking_area.parking_type = @parking_area.parking_type.downcase
-    @parking_types = ["Free", "Metered", "Short Term", "Parking Garage", "Other"]
+    @parking_area.parking_type.downcase!
 
     respond_to do |format|
       if @parking_area.save
@@ -90,7 +49,7 @@ class ParkingAreasController < ApplicationController
 
 
   def update
-    @parking_area.parking_type = @parking_area.parking_type.downcase
+    @parking_area.parking_type.downcase!
 
     respond_to do |format|
       if @parking_area.update(parking_area_params)
@@ -104,10 +63,10 @@ class ParkingAreasController < ApplicationController
 
 
   def destroy
-    @parking_area.destroy
-    respond_to do |format|
-      format.html { redirect_to parking_areas_url, notice: 'Parking area was successfully destroyed' }
-      format.json { head :no_content }
+    if @parking_area.destroy
+      redirect_to parking_areas_url, notice: 'Parking area was successfully removed'
+    else
+      redirect_to parking_areas_url, notice: 'Error: Parking area not removed'
     end
   end
 
@@ -130,5 +89,32 @@ class ParkingAreasController < ApplicationController
 
   def parking_area_params
     params.require(:parking_area).permit(:address, :city, :state, :country, :zip_code, :title, :description, :parking_type, :latitude, :longitude)
+  end
+
+  def get_key
+    @key = ENV["google_maps_key"]
+  end
+
+  def build_markers(parking_areas)
+    Gmaps4rails.build_markers(parking_areas) do |parking_area, marker|
+      marker.lat(parking_area.latitude)
+      marker.lng(parking_area.longitude)
+
+      marker.picture({
+       url: parking_area.marker_color,
+       height: 32,
+       width: 32
+      })
+
+      verification = parking_area.get_user_verification(current_user)
+      reviews = parking_area.get_reviews
+      marker.infowindow(
+        render_to_string(
+        partial: "/infowindows/index.html.erb",
+        locals: {
+          user: current_user, parking_area: parking_area,
+          verification: verification, reviews: reviews
+      }))
+    end
   end
 end

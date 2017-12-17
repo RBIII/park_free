@@ -1,18 +1,56 @@
-var map;
 var currentLocation = null;
 var newParkingArea = null;
 var openWindow = null;
+map = null;
+
+function getCurrentLocation() {
+  //What: gets the current location of the user
+  //When: the site is opened
+  if (navigator.geolocation) {
+    navigator.geolocation.watchPosition(
+      function(position) {
+        displayOnMap(position)
+      },
+      function error(msg) {
+        alert('Please enable your GPS postion feature');
+      },
+      { maximumAge: Infinity, timeout: 60000, enableHighAccuracy: true }
+    );
+  } else {
+    alert("Geolocation API is not enabled in your browser.");
+  }
+}
+
+function displayOnMap(position) {
+  //What: adds a marker at a the users current location
+  //When: their coordinate location is obtained
+  var latLng = {lat: position.coords.latitude, lng: position.coords.longitude}
+  var accuracy = position.coords.accuracy
+
+  currentLocationInfowindow = new google.maps.InfoWindow({
+    content: '<button onclick=addCurrentLocation() class="button" style="margin-bottom: 0px;">Add Parking Area</button>'
+  });
+
+  currentLocation = new google.maps.Marker({
+    position: latLng,
+    map: map,
+    title: 'My Location'
+  });
+
+  google.maps.event.addListener(currentLocation, 'click', function(object){
+    currentLocationInfowindow.open(map, currentLocation);
+  });
+}
 
 function calcRoute(destinationLat, destinationLng) {
   //What: gives directions to the input parking area
   //When: the directions button is clicked
   var directionsService = new google.maps.DirectionsService();
-  var directionsDisplay = new google.maps.DirectionsRenderer({suppressMarkers:true});
+  var directionsDisplay = new google.maps.DirectionsRenderer({ suppressMarkers: true });
+  var destination = new google.maps.LatLng(destinationLat, destinationLng);
 
   directionsDisplay.setMap(map)
   if (currentLocation != null) {
-    var destination = new google.maps.LatLng(destinationLat, destinationLng);
-
     var request = {
       origin: currentLocation.position,
       destination: destination,
@@ -30,29 +68,9 @@ function calcRoute(destinationLat, destinationLng) {
     }
   } else {
     alert("You must have location enabled for directions")
-    getLocation();
+    getCurrentLocation();
   };
 };
-
-function displayOnMap(position) {
-  //What: adds a marker at a the users current location
-  //When: their coordinate location is obtained
-  var latLng = {lat: position.coords.latitude, lng: position.coords.longitude}
-  var accuracy = position.coords.accuracy
-  currentLocationInfowindow = new google.maps.InfoWindow({
-    content: '<button onclick=addCurrentLocation() class="button" style="margin-bottom: 0px;">Add Parking Area</button>'
-  });
-
-  currentLocation = new google.maps.Marker({
-    position: latLng,
-    map: map,
-    title: 'My Location'
-  });
-
-  google.maps.event.addListener(currentLocation, 'click', function(object){
-    currentLocationInfowindow.open(map, currentLocation);
-  });
-}
 
 function addParkingArea() {
   //What: adds a parking area from either a long pressed location or the users current location
@@ -101,23 +119,11 @@ function setPressedLocationMarker(latLng) {
     }, 750);
 
     google.maps.event.addListener(newParkingAreaInfoWindow, 'closeclick', function() {
-      if(newParkingArea != null) {
+      if (newParkingArea != null) {
         newParkingArea.setMap(null);
         newParkingArea = null
       }
     });
-  }
-}
-
-function getLocation() {
-  //What: gets the current location of the user
-  //When: the site is opened
-  if (navigator.geolocation) {
-    navigator.geolocation.watchPosition(displayOnMap,
-       function error(msg){ alert('Please enable your GPS postion feature');
-    }, {maximumAge:Infinity, timeout:60000, enableHighAccuracy: true});
-  } else {
-    alert("Geolocation API is not enabled in your browser.");
   }
 }
 
@@ -134,4 +140,28 @@ function closeWindow() {
   //When: any area that doesn't have an 'onClick' function is clicked
   openWindow.close();
   openWindow = null;
+}
+
+function createMap(center, zoom) {
+  return new google.maps.Map(document.getElementById('map'), {
+    center: center,
+    zoom: zoom
+  });
+}
+
+function setClickListener() {
+  google.maps.event.addListener(map, 'mousedown', function(event){
+    sameCenter = true;
+    google.maps.event.addListener(map, 'drag', function(){
+      sameCenter = false;
+    });
+    var latLng = event.latLng;
+    var counter = setTimeout(function(){
+      setPressedLocationMarker(map, latLng);
+    }, 1000);
+
+    google.maps.event.addListener(map, 'mouseup', function(){
+      clearTimeout(counter)
+    });
+  });
 }

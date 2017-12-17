@@ -11,12 +11,6 @@ class Review < ActiveRecord::Base
   validates_uniqueness_of :user_id, scope: [:parking_area_id], message: "You have already reviewed this parking area"
 
   def sum_of_votes
-    sum = 0
-    if votes.empty?
-      0
-    else
-      votes.each { |vote| sum += vote.value }
-    end
-    sum
+    votes.reduce(0) { |sum, vote| sum + vote.value }
   end
 end

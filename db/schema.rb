@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160914183222) do
+ActiveRecord::Schema.define(version: 20171217203113) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -26,8 +26,8 @@ ActiveRecord::Schema.define(version: 20160914183222) do
   end
 
   create_table "parking_areas", force: :cascade do |t|
-    t.float    "latitude"
-    t.float    "longitude"
+    t.float    "latitude",                     null: false
+    t.float    "longitude",                    null: false
     t.string   "address"
     t.string   "description",  default: "N/A"
     t.string   "title"
@@ -40,6 +40,8 @@ ActiveRecord::Schema.define(version: 20160914183222) do
     t.string   "country"
     t.string   "parking_type"
   end
+
+  add_index "parking_areas", ["latitude", "longitude"], name: "index_parking_areas_on_latitude_and_longitude", unique: true, using: :btree
 
   create_table "reviews", force: :cascade do |t|
     t.text     "content"

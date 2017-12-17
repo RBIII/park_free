@@ -1,6 +1,6 @@
-var upvoteButton = $('#upvote-<%= review.id %>');
-var downvoteButton = $('#downvote-<%= review.id %>');
-var sumSelector = $('#sum-<%= review.id %>');
+var upvoteButton = $('#upvote-<%= voteable.id %>');
+var downvoteButton = $('#downvote-<%= voteable.id %>');
+var sumSelector = $('#sum-<%= voteable.id %>');
 var sum = parseInt(sumSelector.html());
 
 <% if initial_state == :no_vote %>

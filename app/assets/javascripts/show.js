@@ -1,18 +1,13 @@
 function initShowMap() {
-  var jsonMarker = $("#show-map").data("jsonMarker")[0]
-  var centerpoint = new google.maps.LatLng(jsonMarker.lat, jsonMarker.lng);
-
-  map = new google.maps.Map(document.getElementById('show-map'), {
-    center: centerpoint,
-    zoom: 14
-  });
-
+  var jsonMarker = $("#map").data("jsonMarker")[0]
+  var center = new google.maps.LatLng(jsonMarker.lat, jsonMarker.lng);
+  map = createMap(center, 14)
   var infowindow = new google.maps.InfoWindow({
     content: jsonMarker.infowindow
   });
 
   var marker = new google.maps.Marker({
-    position: centerpoint,
+    position: center,
     map: map,
     icon: jsonMarker.picture,
     title: "Show Marker"
@@ -22,22 +17,7 @@ function initShowMap() {
     infowindow.open(map, marker);
   });
 
-  if (navigator.geolocation) {
-    navigator.geolocation.getCurrentPosition(displayOnMap)
-  };
+  google.maps.event.addDomListener(window, 'load', getCurrentLocation(map));
 
-  google.maps.event.addListener(map, 'mousedown', function(event){
-    sameCenter = true;
-    google.maps.event.addListener(map, 'drag', function(){
-      sameCenter = false;
-    });
-    var latLng = event.latLng;
-    var counter = setTimeout(function(){
-      setPressedLocationMarker(latLng);
-    }, 1000);
-
-    google.maps.event.addListener(map, 'mouseup', function(){
-      clearTimeout(counter)
-    });
-  });
+  setClickListener(map)
 }

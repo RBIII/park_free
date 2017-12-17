@@ -3,7 +3,6 @@ class VerificationsController < ApplicationController
 
   def create
     verification = Verification.new(user_id: current_user.id, parking_area_id: params["parking_area_id"], value: 1)
-
     if verification.save
       flash[:notice] = 'Verification added'
     else

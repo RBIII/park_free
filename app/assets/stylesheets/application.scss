@@ -18,7 +18,8 @@
 @import "settings";
 
 body {
-  background-color: #E6E6E6;
+  background-color: white;
+  font-family: monospace;
 }
 
 .flash {
@@ -57,4 +58,35 @@ button.round, .button.round {
 
 .star img {
   width: 20px;
+}
+
+#loading-gif {
+  display: block;
+  margin: 0 auto;
+  max-height: 100%;
+}
+
+div {
+  &.field, &.actions {
+    margin-bottom: 10px;
+  }
+}
+
+#notice {
+  color: green;
+}
+
+.field_with_errors {
+  padding: 2px;
+  background-color: red;
+  display: table;
+}
+
+#error_explanation {
+  width: 450px;
+  border: 2px solid red;
+  padding: 7px;
+  padding-bottom: 0;
+  margin-bottom: 20px;
+  background-color: #f0f0f0;
 }

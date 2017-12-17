@@ -8,10 +8,6 @@ class User < ActiveRecord::Base
          :recoverable, :rememberable, :trackable, :validatable,
          :omniauthable, omniauth_providers: [:google_oauth2, :facebook, :twitter]
 
-  def get_score
-    return self.comments * 2 + self.parking_areas * 5 + self.votes * 0.5
-  end
-
   def self.from_omniauth(access_token)
     data = access_token.info
     user = User.where(email: data["email"]).first
@@ -28,14 +24,18 @@ class User < ActiveRecord::Base
   end
 
   def upvoted?(review)
-    vote = Vote.find_by(user_id: self, voteable_id: review.id, voteable_type: "Review")
+    vote = Vote.find_by(user_id: self.id, voteable_id: review.id, voteable_type: "Review")
 
     return vote != nil && vote.value == 1
   end
 
   def downvoted?(review)
-    vote = Vote.find_by(user_id: self, voteable_id: review.id, voteable_type: "Review")
+    vote = Vote.find_by(user_id: self.id, voteable_id: review.id, voteable_type: "Review")
 
     return vote != nil && vote.value == -1
+  end
+
+  def get_score
+    comments * 2 + parking_areas * 5 + votes * 0.5
   end
 end

@@ -1,15 +1,12 @@
 function initIndexMap() {
-  var jsonMarkers = $("#index-map").data("jsonMarkers");
+  var jsonMarkers = $("#map").data("jsonMarkers");
   var center = new google.maps.LatLng(42.339169, -71.088474);
   var bounds = new google.maps.LatLngBounds();
   var parkingAreas = [];
 
-  map = new google.maps.Map(document.getElementById('index-map'), {
-    center: center,
-    zoom: 4
-  });
+  map = createMap(center, 4)
 
-  google.maps.event.addDomListener(window, 'load', getLocation());
+  google.maps.event.addDomListener(window, 'load', getCurrentLocation(map));
 
   for (var i = 0; i <  jsonMarkers.length; ++i) {
     (function() {
@@ -40,22 +37,8 @@ function initIndexMap() {
 
   new MarkerClusterer(map, parkingAreas, {
     imagePath: 'https://developers.google.com/maps/documentation/javascript/examples/markerclusterer/m',
-    maxZoom: 10
+    maxZoom: 6
   });
 
-  google.maps.event.addListener(map, 'mousedown', function(event){
-    sameCenter = true;
-    google.maps.event.addListener(map, 'drag', function(){
-      sameCenter = false;
-    });
-    var latLng = event.latLng;
-
-    var counter = setTimeout(function(){
-      setPressedLocationMarker(latLng);
-    }, 1000);
-
-    google.maps.event.addListener(map, 'mouseup', function(){
-      clearTimeout(counter)
-    });
-  });
+  setClickListener(map)
 }

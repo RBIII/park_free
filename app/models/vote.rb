@@ -6,22 +6,28 @@ class Vote < ActiveRecord::Base
   validates :value, inclusion: {in: [-1, 0, 1]}
 
   def upvote(user, review)
-    if self.value == 1
-      self.value = 0
+    if value == 1
+      update_attributes(value: 0)
     else
-      self.value = 1
+      update_attributes(value: 1)
     end
-
-    self.save
   end
 
   def downvote(user, review)
-    if self.value == -1
-      self.value = 0
+    if value == -1
+      update_attributes(value: 0)
     else
-      self.value = -1
+      update_attributes(value: -1)
     end
+  end
 
-    self.save
+  def get_initial_state
+    if value == 0
+      :no_vote
+    elsif value == 1
+      :upvoted
+    else
+      :downvoted
+    end
   end
 end

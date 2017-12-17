@@ -1,22 +1,22 @@
 class ReviewsController < ApplicationController
   before_action :get_review, except: [:new, :create]
+  before_action :get_parking_area, except: [:update, :destroy]
   before_action :authenticate_user!
 
   def new
     @review = Review.new()
-    @parking_area = ParkingArea.find(params[:parking_area_id])
     @ratings = (1..10).to_a
   end
 
   def create
     review = Review.new(review_params)
     review.user = current_user
-    review.parking_area = ParkingArea.find(params[:parking_area_id])
+    review.parking_area = @parking_area
 
     respond_to do |format|
       if review.save
         flash[:notice] = "Review added"
-        format.html { redirect_to parking_areas_path }
+        format.html { redirect_to parking_area_path(@parking_area) }
       else
         flash[:alert] = "Error: you cannot add mutiple reviews to the same parking area"
         format.html { redirect_to parking_areas_path }
@@ -26,7 +26,6 @@ class ReviewsController < ApplicationController
 
   def edit
     @review = Review.find(params[:id])
-    @parking_area = ParkingArea.find(params[:parking_area_id])
   end
 
   def update
@@ -52,6 +51,10 @@ class ReviewsController < ApplicationController
   private
   def get_review
     @review = Review.find(params[:id])
+  end
+
+  def get_parking_area
+    @parking_area = ParkingArea.find(params[:parking_area_id])
   end
 
   def review_params

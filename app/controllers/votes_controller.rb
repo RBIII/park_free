@@ -1,41 +1,50 @@
 class VotesController < ApplicationController
-  before_action :authenticate_user!
+  before_action :authenticate_user!, :get_voteable_object, :find_or_create_vote
 
   def upvote
-    review = Review.find(params[:review_id])
-    vote = Vote.find_by(user_id: current_user, voteable_id: review, voteable_type: "Review")
+    initial_state = @vote.get_initial_state
 
-    initial_state = if vote.nil? || vote.value == 0
-      :no_vote
-    elsif vote.value == 1
-      :upvoted
+    if @vote.upvote(current_user, @voteable)
+      respond_to do |format|
+        format.html { redirect_to parking_areas_path }
+        format.js {
+          render partial:
+            'votes/upvote.js.erb',
+            locals: { voteable: @voteable, initial_state: initial_state }
+        }
+      end
     else
-      :downvoted
-    end
-
-    vote.upvote(current_user, review)
-    respond_to do |format|
-      format.html { redirect_to parking_areas_path }
-      format.js { render partial: 'votes/upvote.js.erb', locals: {review: review, initial_state: initial_state} }
+      flash[:alert] = 'Error: Upvote failed to execute'
     end
   end
 
   def downvote
-    review = Review.find(params[:review_id])
-    vote = Vote.find_by(user_id: current_user, voteable_id: review, voteable_type: "Review")
+    initial_state = @vote.get_initial_state
 
-    initial_state = if vote.nil? || vote.value == 0
-      :no_vote
-    elsif vote.value == 1
-      :upvoted
+    if @vote.downvote(current_user, @voteable)
+      respond_to do |format|
+        format.html { redirect_to parking_areas_path }
+        format.js {
+          render partial:
+            'votes/downvote.js.erb',
+            locals: { voteable: @voteable, initial_state: initial_state }
+        }
+      end
     else
-      :downvoted
+      flash[:alert] = 'Error: Downvote failed to execute'
     end
+  end
 
-    vote.downvote(current_user, review)
-    respond_to do |format|
-      format.html { redirect_to parking_areas_path }
-      format.js { render partial: 'votes/downvote.js.erb', locals: {review: review, initial_state: initial_state} }
-    end
+  private
+  def get_voteable_object
+    @voteable = Review.find(params[:review_id]) if params[:review_id]
+  end
+
+  def find_or_create_vote
+    @vote = Vote.find_or_create_by(
+      user_id: current_user.id,
+      voteable_id: @voteable.id,
+      voteable_type: @voteable.class
+    )
   end
 end
