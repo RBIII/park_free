@@ -1,13 +1,11 @@
 <div class="row">
-  <% if current_user && current_user.upvoted?(locals[:review]) %>
-    <%= link_to "⬆", upvote_review_votes_path(locals[:review]), id: "upvote-#{locals[:review].id}", method: :post, class: "small-2 columns upvoted", remote: true %>
-  <% else %>
-    <%= link_to "⬆", upvote_review_votes_path(locals[:review]), id: "upvote-#{locals[:review].id}", method: :post, class: "small-2 columns", remote: true %>
-  <% end %>
+  <%= link_to "⬆", upvote_review_votes_path(locals[:review]),
+      id: "upvote-#{locals[:review].id}", method: :post,
+      class: "small-2 columns #{'upvoted' if locals[:upvoted?]}",
+      remote: true %>
   <%= content_tag :h6, locals[:review].sum_of_votes, id: "sum-#{locals[:review].id}", class: "small-2 columns" %>
-  <% if current_user && current_user.downvoted?(locals[:review]) %>
-    <%= link_to "⬇", downvote_review_votes_path(locals[:review]), id: "downvote-#{locals[:review].id}", method: :post, class: "small-2 columns downvoted", remote: true %>
-  <% else %>
-    <%= link_to "⬇", downvote_review_votes_path(locals[:review]), id: "downvote-#{locals[:review].id}", method: :post, class: "small-2 columns", remote: true %>
-  <% end %>
+  <%= link_to "⬇", downvote_review_votes_path(locals[:review]),
+      id: "downvote-#{locals[:review].id}", method: :post,
+      class: "small-2 columns #{'downvoted' if locals[:downvoted?]}",
+      remote: true %>
 </div>

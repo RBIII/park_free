@@ -4,18 +4,15 @@ var sumSelector = $('#sum-<%= voteable.id %>');
 var sum = parseInt(sumSelector.html());
 
 <% if initial_state == :no_vote %>
-  sum += 1;
-  sumSelector[0].innerHTML = sum;
+  sumSelector[0].innerHTML = sum + 1;
   upvoteButton.addClass('upvoted');
   upvoteButton.css('color', 'orange');
 <% elsif initial_state == :upvoted %>
-  sum -= 1;
-  sumSelector[0].innerHTML = sum;
+  sumSelector[0].innerHTML = sum - 1;
   upvoteButton.removeClass('upvoted');
   upvoteButton.css('color', '');
 <% else %>
-  sum += 2;
-  sumSelector[0].innerHTML = sum;
+  sumSelector[0].innerHTML = sum + 2;
   downvoteButton.removeClass('downvoted');
   downvoteButton.css('color', '');
   upvoteButton.addClass('upvoted');

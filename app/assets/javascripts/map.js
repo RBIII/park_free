@@ -97,7 +97,6 @@ function setPressedLocationMarker(latLng) {
     newParkingAreaInfoWindow = new google.maps.InfoWindow({
       content: '<button onclick=addParkingArea() class="button" style="margin-bottom: 0px;">Add Parking Area</button>'
     });
-
     if (newParkingArea == null) {
       newParkingArea = new google.maps.Marker({
         position: latLng,
@@ -157,7 +156,7 @@ function setClickListener() {
     });
     var latLng = event.latLng;
     var counter = setTimeout(function(){
-      setPressedLocationMarker(map, latLng);
+      setPressedLocationMarker(latLng);
     }, 1000);
 
     google.maps.event.addListener(map, 'mouseup', function(){

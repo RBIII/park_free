@@ -4,12 +4,12 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <script async defer
-      src="https://maps.googleapis.com/maps/api/js?key=<%= @key %>&callback=initShowMap">
+      src="https://maps.googleapis.com/maps/api/js?key=<%= @key %>&callback=initMap">
     </script>
   </head>
 
   <body>
-    <%= content_tag :div, id: "map", data: {json_marker: @json_parking_area} do %>
+    <%= content_tag :div, id: "map", data: { json_markers: @json_parking_area } do %>
       <%= image_tag "loading.gif", id: "loading-gif" %>
     <% end %>
   </body>

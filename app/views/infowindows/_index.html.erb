@@ -8,8 +8,8 @@
     <div class="infowindow-content">
       <div class="row">
         <ul class="tabs" data-tabs id="marker-tabs">
-          <li class="small-6 columns tabs-title" style="text-align: center; padding: 0;"><a onclick="selectParkingInfoTab(<%= parking_area.id %>)" id="info-tab-<%= parking_area.id %>" aria-selected="true">Info</a></li>
-          <li class="small-6 columns tabs-title" style="text-align: center; padding: 0;"><a onclick="selectReviewsTab(<%= parking_area.id %>)" id="reviews-tab-<%= parking_area.id %>" aria-selected="false">Reviews</a></li>
+          <li class="small-6 columns tabs-title"><a onclick="selectParkingInfoTab(<%= parking_area.id %>)" id="info-tab-<%= parking_area.id %>" aria-selected="true">Info</a></li>
+          <li class="small-6 columns tabs-title"><a onclick="selectReviewsTab(<%= parking_area.id %>)" id="reviews-tab-<%= parking_area.id %>" aria-selected="false">Reviews</a></li>
         </ul>
       </div>
 
@@ -71,7 +71,13 @@
                 </div>
 
                 <div class="voting small-4 columns">
-                  <%= render "votes/voting", locals: {review: review} %>
+                  <%= render "votes/voting",
+                      locals: {
+                        review: review,
+                        upvoted?: current_user && current_user.upvoted?(review),
+                        downvoted?: current_user && current_user.downvoted?(review),
+                      }
+                  %>
                 </div>
               </div>
                 <div class="row">

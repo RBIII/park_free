@@ -14,21 +14,12 @@ class ParkingAreasController < ApplicationController
 
 
   def new
-    @latitude = params[:latitude]
-    @longitude = params[:longitude]
-    @parking_area = ParkingArea.new
-    @parking_types = ParkingArea::PARKING_TYPES
-
-    respond_to do |format|
-      format.html
-      format.js
-    end
+    @parking_area = ParkingArea.new(latitude: params[:latitude], longitude: params[:longitude])
   end
 
 
   def edit
     @parking_area = ParkingArea.find(params[:id])
-    @parking_types = ParkingArea::PARKING_TYPES
   end
 
 
@@ -83,12 +74,12 @@ class ParkingAreasController < ApplicationController
   end
 
   private
-  def get_parking_area
-    @parking_area = ParkingArea.find(params[:id])
-  end
-
   def parking_area_params
     params.require(:parking_area).permit(:address, :city, :state, :country, :zip_code, :title, :description, :parking_type, :latitude, :longitude)
+  end
+
+  def get_parking_area
+    @parking_area = ParkingArea.find(params[:id])
   end
 
   def get_key

@@ -5,10 +5,10 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <script src="https://developers.google.com/maps/documentation/javascript/examples/markerclusterer/markerclusterer.js"></script>
     <script async defer
-      src="https://maps.googleapis.com/maps/api/js?key=<%= @key %>&callback=initIndexMap">
+      src="https://maps.googleapis.com/maps/api/js?key=<%= @key %>&callback=initMap">
     </script>
   <body>
-    <%= content_tag :div, id: "map", data: {json_markers: @json_parking_areas} do %>
+    <%= content_tag :div, id: "map", data: { json_markers: @json_parking_areas } do %>
       <%= image_tag "loading.gif", id: "loading-gif" %>
     <% end %>
   </body>

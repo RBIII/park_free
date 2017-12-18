@@ -42,11 +42,11 @@
           <h4>OR</h4>
           <div class="field">
             <%= f.label :latitude %><br>
-            <%= f.text_field :latitude, value: @latitude %>
+            <%= f.text_field :latitude, value: @parking_area.latitude %>
           </div>
           <div class="field">
             <%= f.label :longitude %><br>
-            <%= f.text_field :longitude, value: @longitude %>
+            <%= f.text_field :longitude, value: @parking_area.longitude %>
           </div>
           <div class="field">
             <%= f.label :title %><br>
@@ -54,7 +54,7 @@
           </div>
           <div class="field">
             <%= f.label :parking_type %><br>
-            <%= f.select :parking_type, @parking_types %>
+            <%= f.select :parking_type, ParkingArea::PARKING_TYPES %>
           </div>
           <div class="field">
             <%= f.label :description, "Any other details" %><br>

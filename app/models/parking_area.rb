@@ -11,12 +11,20 @@ class ParkingArea < ActiveRecord::Base
   validates :latitude, presence: true
   validates :longitude, presence: true
   validates :latitude, uniqueness: { scope: :longitude }
-  validates :addresss, uniqueness: { scope: [:city, :state, :country, :zip_code]}
+  validates :address, uniqueness: { scope: [:city, :state, :country, :zip_code]}
 
   before_validation :reverse_geocode, if: :has_latlag?
   before_validation :geocode, if: :has_address?, unless: :has_latlag?
   geocoded_by :full_address
-  reverse_geocoded_by :latitude, :longitude
+  reverse_geocoded_by :latitude, :longitude do |parking_area, result|
+    unless result.first.nil?
+      parking_area.address = result.first.street_address
+      parking_area.city = result.first.city
+      parking_area.state = result.first.state_code
+      parking_area.country = result.first.country_code
+      parking_area.zip_code = result.first.postal_code
+    end
+  end
   before_update :format_parking_type
 
   def has_latlag?
@@ -34,6 +42,7 @@ class ParkingArea < ActiveRecord::Base
   end
 
   def full_address
+    binding.pry
     address + " " + city + " " + state + " " + country + " " + zip_code
   end
 

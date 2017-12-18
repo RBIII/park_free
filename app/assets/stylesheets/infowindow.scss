@@ -31,14 +31,11 @@
   text-align: right;
 }
 
-.upvoted {
+.upvoted, .downvoted {
   color: orange;
 }
 
-.downvoted {
-  color: orange;
+.tabs-title {
+  text-align: center;
+  padding: 0;
 }
-
-// .star {
-//   height: 80px;
-// }

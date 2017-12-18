@@ -1,6 +1,10 @@
-function initIndexMap() {
+function initMap() {
   var jsonMarkers = $("#map").data("jsonMarkers");
-  var center = new google.maps.LatLng(42.339169, -71.088474);
+  if (jsonMarkers.length == 1) {
+    var center = new google.maps.LatLng(jsonMarkers[0].lat, jsonMarkers[0].lng);
+  } else {
+    var center = new google.maps.LatLng(42.339169, -71.088474);
+  }
   var bounds = new google.maps.LatLngBounds();
   var parkingAreas = [];
 
@@ -35,10 +39,12 @@ function initIndexMap() {
     })();
   }
 
-  new MarkerClusterer(map, parkingAreas, {
-    imagePath: 'https://developers.google.com/maps/documentation/javascript/examples/markerclusterer/m',
-    maxZoom: 6
-  });
+  if (jsonMarkers.length > 1 ) {
+    new MarkerClusterer(map, parkingAreas, {
+      imagePath: 'https://developers.google.com/maps/documentation/javascript/examples/markerclusterer/m',
+      maxZoom: 6
+    });
+  }
 
   setClickListener(map)
 }
